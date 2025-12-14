@@ -1,11 +1,16 @@
 import React from "react";
-import { motion } from "framer-motion";
+import { Autoplay, EffectCoverflow, Pagination } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
 import {
   FaUserEdit,
   FaUserCheck,
   FaTools,
   FaCheckCircle,
 } from "react-icons/fa";
+
+import "swiper/css";
+import "swiper/css/effect-coverflow";
+import "swiper/css/pagination";
 
 const steps = [
   {
@@ -40,19 +45,31 @@ const steps = [
     bg: "bg-green-100",
     color: "text-green-600",
   },
+  {
+  step: "Step 05",
+  title: "Feedback & Analytics",
+  desc: "Citizens provide feedback after resolution, helping authorities analyze performance and improve future responses.",
+  icon: <FaUserCheck size={26} />,
+  bg: "bg-purple-100",
+  color: "text-purple-600",
+},
+{
+  step: "Step 06",
+  title: "Public Transparency",
+  desc: "All resolved and ongoing issues remain publicly visible, ensuring accountability and building long-term trust with citizens.",
+  icon: <FaCheckCircle size={26} />,
+  bg: "bg-indigo-100",
+  color: "text-indigo-600",
+}
+
+  
 ];
 
 const HowItWorks = () => {
   return (
-    <section className="py-20 bg-base-200">
+    <section className=" md:p-20 rounded-3xl bg-base-200">
       {/* Header */}
-      <motion.div
-        className="text-center space-y-3 mb-16"
-        initial={{ opacity: 0, y: -20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        viewport={{ once: true }}
-      >
+      <div className="text-center space-y-3 mb-16">
         <h2 className="text-4xl font-bold">
           How <span className="logo-font text-primary">Civic Alert</span> Works
         </h2>
@@ -60,35 +77,54 @@ const HowItWorks = () => {
           From reporting a problem to resolving it — Civic Alert ensures every
           issue is tracked, transparent, and accountable.
         </p>
-      </motion.div>
-
-      {/* Steps */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 px-6 md:px-16">
-        {steps.map((item, index) => (
-          <motion.div
-            key={index}
-            className="bg-base-100 p-6 rounded-xl shadow-sm hover:shadow-xl transition-all text-center space-y-4"
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: index * 0.15 }}
-            viewport={{ once: true }}
-            whileHover={{ scale: 1.05 }}
-          >
-            <div className="text-sm font-semibold text-primary">
-              {item.step}
-            </div>
-
-            <div
-              className={`mx-auto ${item.bg} ${item.color} p-4 rounded-full w-16 h-16 flex items-center justify-center`}
-            >
-              {item.icon}
-            </div>
-
-            <h3 className="font-bold text-lg">{item.title}</h3>
-            <p className="text-base-content/60 text-sm">{item.desc}</p>
-          </motion.div>
-        ))}
       </div>
+
+      {/* Swiper */}
+      <Swiper
+        effect="coverflow"
+        grabCursor
+        centeredSlides
+        slidesPerView={2}
+        loop
+        autoplay={{
+          delay: 2500,
+          disableOnInteraction: false,
+        }}
+        pagination={{ clickable: true }}
+        coverflowEffect={{
+          rotate: 25,
+          stretch: 0,
+          depth: 180,
+          modifier: 1,
+          slideShadows: true,
+        }}
+        modules={[Autoplay, EffectCoverflow, Pagination]}
+        className=""
+        breakpoints={{
+          0: { slidesPerView: 1 },
+          640: { slidesPerView: 2 },
+          1024: { slidesPerView: 3 },
+        }}
+      >
+        {steps.map((item, index) => (
+          <SwiperSlide key={index}>
+            <div className="bg-base-100 p-6 rounded-xl shadow-md text-center space-y-4 mx-4">
+              <div className="text-sm font-semibold text-primary">
+                {item.step}
+              </div>
+
+              <div
+                className={`mx-auto ${item.bg} ${item.color} p-4 rounded-full w-16 h-16 flex items-center justify-center`}
+              >
+                {item.icon}
+              </div>
+
+              <h3 className="font-bold text-lg">{item.title}</h3>
+              <p className="text-base-content/60 text-sm">{item.desc}</p>
+            </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
     </section>
   );
 };
