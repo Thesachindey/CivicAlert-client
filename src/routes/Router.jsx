@@ -10,6 +10,9 @@ import DashboardLayout from "../layout/DashboardLayout";
 import UpdateInfo from "../pages/Profile/UpdateInfo";
 import MyProfilePage from "../pages/Profile/MyProfilePage";
 import PrivateRoute from "./PrivateRoute";
+import AllIssues from "../pages/issues/AllIssues";
+import AboutUs from "../pages/AboutUs/AboutUs";
+import InsertIssue from "../pages/Dashboard/Citizen/InsertIssue";
 
 export const router = createBrowserRouter([
   {
@@ -22,6 +25,16 @@ export const router = createBrowserRouter([
       },
 
       {
+        path: '/about-us',
+        element: <AboutUs />
+
+      },
+      {
+        path: '/all-issues',
+        element: <AllIssues />
+
+      },
+      {
         path: '/my-profile',
         element:
           <PrivateRoute>
@@ -29,12 +42,12 @@ export const router = createBrowserRouter([
           </PrivateRoute>,
 
       },
-       {
+      {
         path: '/auth/update-profile',
-        element: 
-        <PrivateRoute>
-          <UpdateInfo />
-        </PrivateRoute>
+        element:
+          <PrivateRoute>
+            <UpdateInfo />
+          </PrivateRoute>
       }
 
     ]
@@ -44,7 +57,8 @@ export const router = createBrowserRouter([
     Component: DashboardLayout,
     children: [
       {
-
+        path: '/dashboard/report-issue',
+        element: <InsertIssue />
       },
 
     ]
@@ -62,7 +76,7 @@ export const router = createBrowserRouter([
         path: 'register',
         Component: Register,
       },
-     
+
 
     ]
   },

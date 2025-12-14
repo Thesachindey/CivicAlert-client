@@ -34,9 +34,9 @@ const NavBar = () => {
   // nav links 
   const Links = <>
     <li><MyLink to="/">Home</MyLink></li>
-    <li><MyLink to="/about_us">About Us</MyLink></li>
+    <li><MyLink to="/all-issues">All Issues</MyLink></li>
+    <li><MyLink to="/about-us">About Us</MyLink></li>
     <li><MyLink to="/coverage">Coverage</MyLink></li>
-    <li><MyLink to="/send_parcel">Send Parcel</MyLink></li>
 
     {
       user &&
@@ -58,14 +58,6 @@ const NavBar = () => {
               tabIndex="-1"
               className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
               {Links}
-              {/* btn  */}
-              {/* {
-                user
-                  ?
-                  <button onClick={handelLogout} className='btn mr-3 px-5 border-0 rounded-full text-center btn-outline hover:text-primary/50  hover:bg-transparent hover:shadow-none text-primary outline-primary outline-1 relative  my-2'>Log Out</button>
-                  :
-                  <Link to={'/login'} className='btn mr-3 px-5 border-0 rounded-full text-center btn-outline hover:text-primary/50 hover:shadow-none  hover:bg-transparent text-primary outline-primary outline-1 relative  my-2'>Sign In</Link>
-              } */}
             </ul>
           </div>
           {/* logo  */}
@@ -136,26 +128,7 @@ const NavBar = () => {
                       Dashboard
                     </MyLink>
                   </li>
-                  <li>
-                    <MyLink to={'/create-event'}>
-                      <PlusCircle className="inline-block w-4 h-4 mr-2" />
-                      Create Event
-                    </MyLink>
-                  </li>
 
-                  <li>
-                    <MyLink to={'/manage-events'}>
-                      <ListChecks className="inline-block w-4 h-4 mr-2" />
-                      Manage Events
-                    </MyLink>
-                  </li>
-
-                  <li>
-                    <MyLink to={'/joined-events'}>
-                      <UserCheck className="inline-block w-4 h-4 mr-2" />
-                      Joined Events
-                    </MyLink>
-                  </li>
                   <li>
                     <button onClick={handelLogout} className="flex justify-center items-center bg-primary text-white  hover:bg-green-500 btn btn-outline border-black transition-colors cursor-pointer "><BiLogOutCircle />LogOut</button>
                   </li>

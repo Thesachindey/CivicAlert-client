@@ -5,8 +5,12 @@ import { RiEBike2Line, RiEBikeFill } from "react-icons/ri";
 // import useRole from '../Hooks/useRole';
 import { GiFullMotorcycleHelmet } from "react-icons/gi";
 import Logo from '../Components/Logo';
-import { MdOutlineCrisisAlert } from 'react-icons/md';
+import { MdOutlineCrisisAlert, MdReport } from 'react-icons/md';
 import MyLink from '../Components/MyLink';
+
+
+
+
 const DashboardLayout = () => {
 
     // const { role } = useRole();
@@ -43,13 +47,24 @@ const DashboardLayout = () => {
                                 <button to={'/'} className="is-drawer-close:tooltip is-drawer-close:tooltip-right " data-tip="Homepage">
                                     {/* Home icon */}
                                     <Link to={'/'} className="my-1.5 inline-block size-4 is-drawer-open:hidden">
-                                       <MdOutlineCrisisAlert className='text-green-400 font-bold' size={19} />
+                                        <MdOutlineCrisisAlert className='text-green-400 font-bold' size={19} />
                                     </Link>
                                     <span className="is-drawer-close:hidden"><Logo /></span>
                                 </button>
                             </li>
 
 
+                            {/* List item -report-issue */}
+                            <li className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Report Issue">
+                                <MyLink to={'/dashboard/report-issue'}>
+                                    {/* my-parcels icon */}
+                                    <span className="my-1.5 inline-block size-3">
+                                        <MdReport />
+                                    </span>
+
+                                    <span className="is-drawer-close:hidden">Report Issue</span>
+                                </MyLink>
+                            </li>
                             {/* List item -my parcels */}
                             <li>
                                 <MyLink to={'/dashboard/my-parcels'} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="My Parcels">
