@@ -1,12 +1,13 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link, Navigate, useNavigate } from 'react-router';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import { motion } from 'framer-motion';
 
 const NotFoundPage = () => {
+    const navigate = useNavigate()
     return (
         <div className="min-h-screen flex flex-col justify-center items-center bg-base-200 text-center px-6">
-            
+
             {/* Animation */}
             <motion.div
                 initial={{ opacity: 0, y: 30 }}
@@ -43,8 +44,23 @@ const NotFoundPage = () => {
                         Go Back Home
                     </Link>
 
-                    <Link to="/all-issues" className="btn btn-outline btn-wide">
-                        View All Issues
+                    <Link onClick={() => navigate(-1)} className="btn btn-outline btn-wide">
+                        <svg
+                            xmlns='http://www.w3.org/2000/svg'
+                            fill='none'
+                            viewBox='0 0 24 24'
+                            strokeWidth='1.5'
+                            stroke='currentColor'
+                            className='w-5 h-5 rtl:rotate-180 text-lime-500'
+                        >
+                            <path
+                                strokeLinecap='round'
+                                strokeLinejoin='round'
+                                d='M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18'
+                            />
+                        </svg>
+
+                        <span>Go back</span>
                     </Link>
                 </div>
             </motion.div>

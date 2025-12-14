@@ -9,6 +9,7 @@ import { motion, MotionConfig } from 'framer-motion';
 import { IoMdLogIn } from 'react-icons/io';
 import { BiLogOutCircle } from 'react-icons/bi';
 import { Calendar, Home, ListChecks, PlusCircle, User, UserCheck } from 'lucide-react'
+import { MdDashboard } from 'react-icons/md';
 
 const NavBar = () => {
   const { user, logOut } = useAuth();
@@ -125,6 +126,12 @@ const NavBar = () => {
                     </MyLink>
                   </li>
 
+                  <li>
+                    <MyLink to={'/dashboard'}>
+                      <MdDashboard className="inline-block w-4 h-4 mr-2" />
+                     Dashboard
+                    </MyLink>
+                  </li>
                   <li>
                     <MyLink to={'/create-event'}>
                       <PlusCircle className="inline-block w-4 h-4 mr-2" />

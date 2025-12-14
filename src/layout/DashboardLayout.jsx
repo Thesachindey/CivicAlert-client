@@ -1,0 +1,132 @@
+import React from 'react';
+import { Link, NavLink, Outlet } from 'react-router';
+import { FaBoxOpen, FaRegCreditCard, FaUsers } from 'react-icons/fa6';
+import { RiEBike2Line, RiEBikeFill } from "react-icons/ri";
+// import useRole from '../Hooks/useRole';
+import { GiFullMotorcycleHelmet } from "react-icons/gi";
+import Logo from '../Components/Logo';
+import { MdOutlineCrisisAlert } from 'react-icons/md';
+const DashboardLayout = () => {
+
+    // const { role } = useRole();
+
+    return (
+        <div >
+            <div className="drawer lg:drawer-open max-w-7xl mx-auto">
+                <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
+                <div className="drawer-content">
+                    {/* Navbar */}
+                    <div className="p-2 ">
+                        <nav className="navbar w-full bg-base-100 rounded-2xl">
+                            <label htmlFor="my-drawer-4" aria-label="open sidebar" className="btn btn-square btn-ghost hover:bg-gray-200 hover:border-0 hover:shadow-none">
+                                {/* Sidebar toggle icon */}
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" strokeLinejoin="round" strokeLinecap="round" strokeWidth="2" fill="none" stroke="currentColor" className="my-1.5 inline-block size-4"><path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path><path d="M9 4v16"></path><path d="M14 10l2 2l-2 2"></path></svg>
+                            </label>
+                            <div className="px-4">Navbar Title</div>
+                        </nav>
+                    </div>
+                    {/* Page content here */}
+                    <div className="min-h-screen">
+                        <Outlet></Outlet>
+
+                    </div>
+                </div>
+
+                <div className="drawer-side pl-2 py-2  is-drawer-close:overflow-visible">
+                    <label htmlFor="my-drawer-4" aria-label="close sidebar" className="drawer-overlay"></label>
+                    <div className="flex min-h-full flex-col items-start rounded-2xl bg-base-100 shadow is-drawer-close:w-14 is-drawer-open:w-64">
+                        {/* Sidebar content here */}
+                        <ul className="menu w-full grow">
+                            {/* List item */}
+                            <li>
+                                <button to={'/'} className="is-drawer-close:tooltip is-drawer-close:tooltip-right " data-tip="Homepage">
+                                    {/* Home icon */}
+                                    <Link to={'/'} className="my-1.5 inline-block size-4 is-drawer-open:hidden">
+                                       <MdOutlineCrisisAlert className='text-green-400 font-bold' size={19} />
+                                    </Link>
+                                    <span className="is-drawer-close:hidden"><Logo /></span>
+                                </button>
+                            </li>
+
+
+                            {/* List item -my parcels */}
+                            <li>
+                                <NavLink to={'/dashboard/my-parcels'} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="My Parcels">
+                                    {/* my-parcels icon */}
+                                    <span className="my-1.5 inline-block size-3">
+                                        <FaBoxOpen />
+                                    </span>
+
+                                    <span className="is-drawer-close:hidden">My Parcels</span>
+                                </NavLink>
+                            </li>
+
+                            {/* List item -payment history */}
+                            <li>
+                                <NavLink to={'/dashboard/payment-history'} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Payment History">
+                                    {/* my-parcels icon */}
+                                    <span className="my-1.5 inline-block size-3">
+                                        <FaRegCreditCard />
+                                    </span>
+
+                                    <span className="is-drawer-close:hidden">Payment History</span>
+                                </NavLink>
+                            </li>
+                            {/* Approve Riders */}
+                            {/* Users management */}
+                            {
+                                // role === 'admin' &&
+                                <>
+                                    <li>
+                                        <NavLink to={'/dashboard/approve-riders'} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Approve Riders">
+                                            {/* my-parcels icon */}
+                                            <span className="my-1.5 inline-block size-3">
+                                                <GiFullMotorcycleHelmet />
+                                            </span>
+
+                                            <span className="is-drawer-close:hidden">Approve Riders</span>
+                                        </NavLink>
+                                    </li>
+
+                                    <li>
+                                        <NavLink to={'/dashboard/assign-riders'} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Assign Riders">
+                                            {/* my-parcels icon */}
+                                            <span className="my-1.5 inline-block size-3">
+                                                <RiEBikeFill />
+                                            </span>
+
+                                            <span className="is-drawer-close:hidden">Assign Riders</span>
+                                        </NavLink>
+                                    </li>
+
+                                    <li>
+                                        <NavLink to={'/dashboard/users-management'} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Users management">
+                                            {/* my-parcels icon */}
+                                            <span className="my-1.5 inline-block size-3">
+                                                <FaUsers />
+                                            </span>
+
+                                            <span className="is-drawer-close:hidden">Users management</span>
+                                        </NavLink>
+                                    </li>
+                                </>
+
+                            }
+                            {/* List item */}
+                            <li>
+                                <button className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Settings">
+                                    {/* Settings icon */}
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" strokeLinejoin="round" strokeLinecap="round" strokeWidth="2" fill="none" stroke="currentColor" className="my-1.5 inline-block size-4"><path d="M20 7h-9"></path><path d="M14 17H5"></path><circle cx="17" cy="17" r="3"></circle><circle cx="7" cy="7" r="3"></circle></svg>
+                                    <span className="is-drawer-close:hidden">Settings</span>
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    );
+};
+
+export default DashboardLayout;
