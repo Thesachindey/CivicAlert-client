@@ -1,6 +1,6 @@
 import React from 'react';
-import { Link, NavLink } from 'react-router';
-import { FaArrowUp } from 'react-icons/fa';
+import { Link } from 'react-router';
+import { FaArrowUp, FaUserPlus } from 'react-icons/fa';
 import toast from 'react-hot-toast';
 import Logo from './Logo';
 import useAuth from '../Hooks/useAuth';
@@ -10,6 +10,10 @@ import { IoMdLogIn } from 'react-icons/io';
 import { BiLogOutCircle } from 'react-icons/bi';
 import { Calendar, Home, ListChecks, PlusCircle, User, UserCheck } from 'lucide-react'
 import { MdDashboard } from 'react-icons/md';
+import { HiOutlineMenuAlt3 } from "react-icons/hi";
+import { FaUserCircle } from "react-icons/fa";
+
+
 
 const NavBar = () => {
   const { user, logOut } = useAuth();
@@ -29,15 +33,15 @@ const NavBar = () => {
 
   // nav links 
   const Links = <>
-    <li><NavLink to="/">Home</NavLink></li>
-    <li><NavLink to="/about_us">About Us</NavLink></li>
-    <li><NavLink to="/coverage">Coverage</NavLink></li>
-    <li><NavLink to="/send_parcel">Send Parcel</NavLink></li>
+    <li><MyLink to="/">Home</MyLink></li>
+    <li><MyLink to="/about_us">About Us</MyLink></li>
+    <li><MyLink to="/coverage">Coverage</MyLink></li>
+    <li><MyLink to="/send_parcel">Send Parcel</MyLink></li>
 
     {
       user &&
       <>
-        <li><NavLink to="/dashboard/my-parcels">My Parcels</NavLink></li>
+        <li><MyLink to="/dashboard/my-parcels">My Parcels</MyLink></li>
       </>
     }
   </>
@@ -55,13 +59,13 @@ const NavBar = () => {
               className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
               {Links}
               {/* btn  */}
-              {
+              {/* {
                 user
                   ?
                   <button onClick={handelLogout} className='btn mr-3 px-5 border-0 rounded-full text-center btn-outline hover:text-primary/50  hover:bg-transparent hover:shadow-none text-primary outline-primary outline-1 relative  my-2'>Log Out</button>
                   :
                   <Link to={'/login'} className='btn mr-3 px-5 border-0 rounded-full text-center btn-outline hover:text-primary/50 hover:shadow-none  hover:bg-transparent text-primary outline-primary outline-1 relative  my-2'>Sign In</Link>
-              }
+              } */}
             </ul>
           </div>
           {/* logo  */}
@@ -129,7 +133,7 @@ const NavBar = () => {
                   <li>
                     <MyLink to={'/dashboard'}>
                       <MdDashboard className="inline-block w-4 h-4 mr-2" />
-                     Dashboard
+                      Dashboard
                     </MyLink>
                   </li>
                   <li>
@@ -164,10 +168,46 @@ const NavBar = () => {
 
             :
 
-            <div className='flex justify-center items-center gap-3.5'>
+            <div className="dropdown dropdown-end">
+              {/* Trigger */}
+              <div
+                tabIndex={0}
+                className="tooltip tooltip-bottom"
+                data-tip="Account"
+              >
+                <button className="btn btn-circle btn-primary text-white">
+                  <FaUserCircle size={22} />
+                </button>
+              </div>
 
-              <MyLink to={'/login'} className="flex btn-outline border-black justify-center items-center bg-primary text-white  hover:bg-green-500 btn transition-colors cursor-pointer "><IoMdLogIn />Login</MyLink>
+              {/* Dropdown content */}
+              <ul
+                tabIndex={0}
+                className="dropdown-content menu p-3 shadow bg-base-100 rounded-box w-52 space-y-2"
+              >
+                <li>
+                  <MyLink
+                    to="/login"
+                    className="btn btn-outline border-black justify-start gap-2"
+                  >
+                    <IoMdLogIn size={18} />
+                    Login
+                  </MyLink>
+                </li>
+
+                <li>
+                  <MyLink
+                    to="/register"
+                    className="btn btn-primary text-white justify-start gap-2 hover:bg-green-500"
+                  >
+                    <FaUserPlus size={16} />
+                    Register
+                  </MyLink>
+                </li>
+              </ul>
             </div>
+
+
 
           }
         </div>

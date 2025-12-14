@@ -1,11 +1,12 @@
 import React from 'react';
-import { Link, NavLink, Outlet } from 'react-router';
+import { Link, Outlet } from 'react-router';
 import { FaBoxOpen, FaRegCreditCard, FaUsers } from 'react-icons/fa6';
 import { RiEBike2Line, RiEBikeFill } from "react-icons/ri";
 // import useRole from '../Hooks/useRole';
 import { GiFullMotorcycleHelmet } from "react-icons/gi";
 import Logo from '../Components/Logo';
 import { MdOutlineCrisisAlert } from 'react-icons/md';
+import MyLink from '../Components/MyLink';
 const DashboardLayout = () => {
 
     // const { role } = useRole();
@@ -17,12 +18,12 @@ const DashboardLayout = () => {
                 <div className="drawer-content">
                     {/* Navbar */}
                     <div className="p-2 ">
-                        <nav className="navbar w-full bg-base-100 rounded-2xl">
+                        <nav className="navbar w-full bg-base-200 rounded-2xl">
                             <label htmlFor="my-drawer-4" aria-label="open sidebar" className="btn btn-square btn-ghost hover:bg-gray-200 hover:border-0 hover:shadow-none">
                                 {/* Sidebar toggle icon */}
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" strokeLinejoin="round" strokeLinecap="round" strokeWidth="2" fill="none" stroke="currentColor" className="my-1.5 inline-block size-4"><path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path><path d="M9 4v16"></path><path d="M14 10l2 2l-2 2"></path></svg>
                             </label>
-                            <div className="px-4">Navbar Title</div>
+                            <div className="px-4">Dashboard</div>
                         </nav>
                     </div>
                     {/* Page content here */}
@@ -34,7 +35,7 @@ const DashboardLayout = () => {
 
                 <div className="drawer-side pl-2 py-2  is-drawer-close:overflow-visible">
                     <label htmlFor="my-drawer-4" aria-label="close sidebar" className="drawer-overlay"></label>
-                    <div className="flex min-h-full flex-col items-start rounded-2xl bg-base-100 shadow is-drawer-close:w-14 is-drawer-open:w-64">
+                    <div className="flex min-h-full flex-col items-start rounded-2xl bg-base-200 shadow is-drawer-close:w-14 is-drawer-open:w-64">
                         {/* Sidebar content here */}
                         <ul className="menu w-full grow">
                             {/* List item */}
@@ -51,26 +52,26 @@ const DashboardLayout = () => {
 
                             {/* List item -my parcels */}
                             <li>
-                                <NavLink to={'/dashboard/my-parcels'} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="My Parcels">
+                                <MyLink to={'/dashboard/my-parcels'} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="My Parcels">
                                     {/* my-parcels icon */}
                                     <span className="my-1.5 inline-block size-3">
                                         <FaBoxOpen />
                                     </span>
 
                                     <span className="is-drawer-close:hidden">My Parcels</span>
-                                </NavLink>
+                                </MyLink>
                             </li>
 
                             {/* List item -payment history */}
                             <li>
-                                <NavLink to={'/dashboard/payment-history'} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Payment History">
+                                <MyLink to={'/dashboard/payment-history'} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Payment History">
                                     {/* my-parcels icon */}
                                     <span className="my-1.5 inline-block size-3">
                                         <FaRegCreditCard />
                                     </span>
 
                                     <span className="is-drawer-close:hidden">Payment History</span>
-                                </NavLink>
+                                </MyLink>
                             </li>
                             {/* Approve Riders */}
                             {/* Users management */}
@@ -78,36 +79,36 @@ const DashboardLayout = () => {
                                 // role === 'admin' &&
                                 <>
                                     <li>
-                                        <NavLink to={'/dashboard/approve-riders'} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Approve Riders">
+                                        <MyLink to={'/dashboard/approve-riders'} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Approve Riders">
                                             {/* my-parcels icon */}
                                             <span className="my-1.5 inline-block size-3">
                                                 <GiFullMotorcycleHelmet />
                                             </span>
 
                                             <span className="is-drawer-close:hidden">Approve Riders</span>
-                                        </NavLink>
+                                        </MyLink>
                                     </li>
 
                                     <li>
-                                        <NavLink to={'/dashboard/assign-riders'} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Assign Riders">
+                                        <MyLink to={'/dashboard/assign-riders'} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Assign Riders">
                                             {/* my-parcels icon */}
                                             <span className="my-1.5 inline-block size-3">
                                                 <RiEBikeFill />
                                             </span>
 
                                             <span className="is-drawer-close:hidden">Assign Riders</span>
-                                        </NavLink>
+                                        </MyLink>
                                     </li>
 
                                     <li>
-                                        <NavLink to={'/dashboard/users-management'} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Users management">
+                                        <MyLink to={'/dashboard/users-management'} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Users management">
                                             {/* my-parcels icon */}
                                             <span className="my-1.5 inline-block size-3">
                                                 <FaUsers />
                                             </span>
 
                                             <span className="is-drawer-close:hidden">Users management</span>
-                                        </NavLink>
+                                        </MyLink>
                                     </li>
                                 </>
 
