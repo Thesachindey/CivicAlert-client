@@ -81,7 +81,7 @@ const Register = () => {
             >
                 {/* Header */}
                 <div className="flex flex-col items-center mb-6">
-                    <h3 className="text-4xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                    <h3 className="text-4xl font-bold">
                         Create an Account
                     </h3>
                     <p className="opacity-70 font-semibold">Register with</p>

@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from 'react-router';
 import useAuth from '../../Hooks/useAuth';
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
 
+
 const SocialLogin = () => {
     const { signInGoogle } = useAuth();
     const location = useLocation();
@@ -18,11 +19,12 @@ const SocialLogin = () => {
         .then((res) => {
             console.log(res.user);
             toast.success("Sign In with Google successfully.");
+            navigate(location?.state || '/');
 
             const userInfo = {
                 email: res.user.email,
-                displayName: res.user.displayName,   // FIXED
-                photoURL: res.user.photoURL          // FIXED spelling
+                displayName: res.user.displayName,   
+                photoURL: res.user.photoURL         
             }
 
             // create user in database
@@ -31,7 +33,6 @@ const SocialLogin = () => {
                     console.log('User data stored', res.data);
 
                     // navigate
-                    navigate(location?.state || '/');
                 });
         })
         .catch((error) => {
@@ -42,7 +43,7 @@ const SocialLogin = () => {
 
     return (
         <div >
-            <button onClick={handelGoogleSignIn} className="btn w-full shadow-none border-0 bg-secondary/10 hover:bg-secondary/20 text-secondary mt-4"> <FcGoogle size={24} /> Login with google</button>
+            <button onClick={handelGoogleSignIn} className="btn w-full shadow-none border-0 bg-secondary/15 hover:bg-secondary/20 text-secondary mt-4"> <FcGoogle size={24} /> Login with google</button>
         </div>
     );
 };
