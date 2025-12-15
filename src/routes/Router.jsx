@@ -13,6 +13,7 @@ import PrivateRoute from "./PrivateRoute";
 import AllIssues from "../pages/issues/AllIssues";
 import AboutUs from "../pages/AboutUs/AboutUs";
 import InsertIssue from "../pages/Dashboard/Citizen/InsertIssue";
+import IssueDetails from "../pages/issues/IssueDetails";
 
 export const router = createBrowserRouter([
   {
@@ -32,6 +33,11 @@ export const router = createBrowserRouter([
       {
         path: '/all-issues',
         element: <AllIssues />
+
+      },
+      {
+        path: '/issue-details/:id',
+        element: <IssueDetails />
 
       },
       {

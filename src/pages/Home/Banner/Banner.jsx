@@ -18,7 +18,7 @@ const Banner = () => {
                     </p>
                     <p className="mb-6 text-sm italic">Your Voice, Your City</p>
                     <Link
-                        to="/report-issue"
+                        to="dashboard/report-issue"
                         className="btn btn-primary text-secondary btn-lg shadow-lg hover:scale-105 transition-transform"
                     >
                         Report an Issue

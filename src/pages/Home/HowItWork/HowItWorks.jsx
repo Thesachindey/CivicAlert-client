@@ -67,7 +67,7 @@ const steps = [
 
 const HowItWorks = () => {
   return (
-    <section className=" md:p-20 rounded-3xl bg-base-200">
+    <section className="py-8 md:p-20 rounded-3xl bg-base-200">
       {/* Header */}
       <div className="text-center space-y-3 mb-16">
         <h2 className="text-4xl font-bold">

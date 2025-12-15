@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 import { useMutation } from "@tanstack/react-query";
-
 import {
   FaHeading,
   FaListAlt,
@@ -16,6 +15,8 @@ import {
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import useAuth from "../../../Hooks/useAuth";
 import { imageUpload } from "../../../utils/img";
+import LoadingPage from "../../LoadingPage/LoadingPage";
+import ErrorPage from "../../ErrorPage";
 
 
 
@@ -32,7 +33,7 @@ const InsertIssue = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
 
- //query
+  //query
   const {
     mutateAsync,
     isPending,
@@ -44,7 +45,7 @@ const InsertIssue = () => {
     onSuccess: () => {
       toast.success("Issue submitted successfully");
       reset();
-      navigate("/all-issues");
+      // navigate("/all-issues");
     },
 
     onError: () => {
@@ -52,7 +53,7 @@ const InsertIssue = () => {
     },
   });
 
- //submit fun
+  //submit fun
   const handleInsertIssue = async (data) => {
     if (!user) {
       return toast.error("Please login to submit an issue");
@@ -74,14 +75,19 @@ const InsertIssue = () => {
       const imageUrl = await imageUpload(data.image[0]);
 
       const issueData = {
-        title: data.title,
-        description: data.description,
+        title: data.title.trim(),
+        description: data.description.trim(),
         category: data.category,
         priority: data.priority,
-        location: data.location,
+        location: data.location.trim(),
         image: imageUrl,
         status: "Pending",
+
+        
         upvotes: 0,
+        upvotedBy: [],
+
+        
         createdBy: user.email,
         createdAt: new Date(),
       };
@@ -93,13 +99,9 @@ const InsertIssue = () => {
     }
   };
 
-  if (isError) {
-    return (
-      <p className="text-center text-red-500 mt-10">
-        Something went wrong!
-      </p>
-    );
-  }
+  if (isPending) return <LoadingPage />
+
+  if (isError) return <ErrorPage />
 
   return (
     <motion.div
@@ -130,13 +132,13 @@ const InsertIssue = () => {
             <div>
               <label className="label">Issue Title</label>
               <div className="relative">
-                <FaHeading className="absolute left-3 top-1/2 -translate-y-1/2 text-primary" />
+
                 <input
                   {...register("title", {
                     required: "Title is required",
                     minLength: { value: 10, message: "Min 10 characters" },
                   })}
-                  className="input w-full pl-10"
+                  className="input w-full"
                   placeholder="Broken street light near school"
                 />
               </div>
@@ -166,12 +168,12 @@ const InsertIssue = () => {
               <div>
                 <label className="label">Category</label>
                 <div className="relative">
-                  <FaListAlt className="absolute left-3 top-1/2 -translate-y-1/2 text-primary" />
+
                   <select
                     {...register("category", {
                       required: "Category is required",
                     })}
-                    className="select select-bordered w-full pl-10"
+                    className="select select-bordered w-full "
                     defaultValue=""
                   >
                     <option value="" disabled>Select category</option>
@@ -195,16 +197,16 @@ const InsertIssue = () => {
               <div>
                 <label className="label">Priority</label>
                 <div className="relative">
-                  <FaExclamationTriangle className="absolute left-3 top-1/2 -translate-y-1/2 text-primary" />
+
                   <select
                     {...register("priority", {
                       required: "Priority is required",
                     })}
-                    className="select select-bordered w-full pl-10"
+                    className="select select-bordered w-full"
                     defaultValue=""
                   >
                     <option value="" disabled>Select priority</option>
-                    <option>High</option>
+                    {/* <option>High</option> */}
                     <option>Normal</option>
                   </select>
                 </div>
@@ -218,12 +220,12 @@ const InsertIssue = () => {
             <div>
               <label className="label">Location</label>
               <div className="relative">
-                <FaMapMarkerAlt className="absolute left-3 top-1/2 -translate-y-1/2 text-primary" />
+
                 <input
                   {...register("location", {
                     required: "Location is required",
                   })}
-                  className="input w-full pl-10"
+                  className="input w-full "
                   placeholder="Dhanmondi 32, Dhaka"
                 />
               </div>
@@ -263,7 +265,7 @@ const InsertIssue = () => {
             <motion.button
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.95 }}
-              className="btn btn-primary w-full text-lg mt-4"
+              className="btn btn-primary w-full text-base-100 text-lg mt-4"
             >
               {isPending ? "Submitting..." : "Submit Issue"}
             </motion.button>
