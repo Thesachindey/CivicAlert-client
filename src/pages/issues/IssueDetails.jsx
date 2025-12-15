@@ -6,6 +6,9 @@ import toast from "react-hot-toast";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { AuthContext } from "../../context/AuthContext";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import LoadingPage from "../LoadingPage/LoadingPage";
+
+
 
 const IssueDetails = () => {
   const { id } = useParams();
@@ -14,9 +17,7 @@ const IssueDetails = () => {
   const axiosSecure = useAxiosSecure();
   const queryClient = useQueryClient();
 
-  // -----------------------------
-  // Fetch issue details
-  // -----------------------------
+  //fetch issue details
   const { data: issue, isLoading } = useQuery({
     queryKey: ["issue", id],
     queryFn: async () => {
@@ -25,9 +26,7 @@ const IssueDetails = () => {
     },
   });
 
-  // -----------------------------
-  // Check upvote status
-  // -----------------------------
+  //check upvote status
   const { data: upvoteStatus } = useQuery({
     queryKey: ["upvoteStatus", id, user?.email],
     enabled: !!user,
@@ -39,9 +38,7 @@ const IssueDetails = () => {
     },
   });
 
-  // -----------------------------
-  // Upvote mutation
-  // -----------------------------
+  //update upvote
   const upvoteMutation = useMutation({
     mutationFn: async () => {
       return axiosSecure.patch(`/issues/upvote/${id}`, {
@@ -77,9 +74,7 @@ const IssueDetails = () => {
     upvoteMutation.mutate();
   };
 
-  if (isLoading) {
-    return <div className="text-center py-20">Loading...</div>;
-  }
+  if (isLoading) return <LoadingPage/>
 
   return (
     <motion.div
@@ -109,16 +104,16 @@ const IssueDetails = () => {
 
           <div className="space-y-2 pt-4">
             <div className="flex items-center gap-2 text-gray-500">
-              <MapPin /> {issue.location}
+              <MapPin color="red" /> {issue.location}
             </div>
 
             <div className="flex items-center gap-2 text-gray-500">
-              <CalendarDays /> Reported on:{" "}
+              <CalendarDays color="blue" /> Reported on:{" "}
               {new Date(issue.createdAt).toLocaleDateString()}
             </div>
 
             <div className="flex items-center gap-2 text-gray-500">
-              <User2 /> Reported by: {issue.createdBy}
+              <User2 color="green" /> Reported by: {issue.createdBy}
             </div>
           </div>
 
@@ -158,7 +153,7 @@ const IssueDetails = () => {
                 upvoteStatus ? "btn-disabled" : "btn-primary"
               }`}
             >
-              <ThumbsUp size={18} />
+              <ThumbsUp size={18}  />
               Upvote
             </button>
 
