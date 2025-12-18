@@ -1,19 +1,22 @@
 import React from 'react';
 import { Link, Outlet } from 'react-router';
 import { FaBoxOpen, FaRegCreditCard, FaUsers } from 'react-icons/fa6';
-import { RiEBike2Line, RiEBikeFill } from "react-icons/ri";
+import { RiEBike2Line, RiEBikeFill, RiProfileFill, RiSecurePaymentFill } from "react-icons/ri";
 // import useRole from '../Hooks/useRole';
-import { GiFullMotorcycleHelmet } from "react-icons/gi";
+import { GiFullMotorcycleHelmet, GiSkullStaff } from "react-icons/gi";
 import Logo from '../Components/Logo';
-import { MdOutlineCrisisAlert, MdReport } from 'react-icons/md';
+import { MdAssignmentAdd, MdDynamicFeed, MdManageHistory, MdOutlineCrisisAlert, MdReport } from 'react-icons/md';
 import MyLink from '../Components/MyLink';
+import { HomeIcon, User2Icon } from 'lucide-react';
+import { FcManager } from 'react-icons/fc';
+import useRole from '../context/useRole';
 
 
 
 
 const DashboardLayout = () => {
 
-    // const { role } = useRole();
+    const { role } = useRole();
 
     return (
         <div >
@@ -54,80 +57,132 @@ const DashboardLayout = () => {
                             </li>
 
 
-                            {/* List item -report-issue */}
-                            <li className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Report Issue">
-                                <MyLink to={'/dashboard/report-issue'}>
-                                    {/* my-parcels icon */}
-                                    <span className="my-1.5 inline-block size-3">
-                                        <MdReport />
-                                    </span>
 
-                                    <span className="is-drawer-close:hidden">Report Issue</span>
-                                </MyLink>
-                            </li>
-                            {/* List item -my parcels */}
-                            <li>
-                                <MyLink to={'/dashboard/my-parcels'} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="My Parcels">
-                                    {/* my-parcels icon */}
-                                    <span className="my-1.5 inline-block size-3">
-                                        <FaBoxOpen />
-                                    </span>
 
-                                    <span className="is-drawer-close:hidden">My Parcels</span>
-                                </MyLink>
-                            </li>
 
-                            {/* List item -payment history */}
-                            <li>
-                                <MyLink to={'/dashboard/payment-history'} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Payment History">
-                                    {/* my-parcels icon */}
-                                    <span className="my-1.5 inline-block size-3">
-                                        <FaRegCreditCard />
-                                    </span>
+                            {/* Users citizen */}
+                            {
+                                role === 'citizen' &&
+                                <>
+                                {/* home  */}
+                                    <li className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Citizen Home">
+                                        <MyLink to={'/dashboard/citizen-home'}>
+                                            {/* my-parcels icon */}
+                                            <span className="my-1.5 inline-block size-3">
+                                                <HomeIcon size={15} />
+                                            </span>
 
-                                    <span className="is-drawer-close:hidden">Payment History</span>
-                                </MyLink>
-                            </li>
-                            {/* Approve Riders */}
-                            {/* Users management */}
+                                            <span className="is-drawer-close:hidden">Citizen Home</span>
+                                        </MyLink>
+                                    </li>
+                                    {/* report new issue */}
+                                    <li className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Report Issue">
+                                        <MyLink to={'/dashboard/report-issue'}>
+                                            {/* my-parcels icon */}
+                                            <span className="my-1.5 inline-block size-3">
+                                                <MdReport />
+                                            </span>
+
+                                            <span className="is-drawer-close:hidden">Report Issue</span>
+                                        </MyLink>
+                                    </li>
+                                    
+                                    <li className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="My Issues">
+                                        <MyLink to={'/dashboard/my-issues'}>
+                                            {/* my-parcels icon */}
+                                            <span className="my-1.5 inline-block size-3">
+                                                <MdDynamicFeed />
+                                            </span>
+
+                                            <span className="is-drawer-close:hidden">My Issues</span>
+                                        </MyLink>
+                                    </li>
+
+
+                                </>
+                            }
+                            {/* user admin  */}
                             {
                                 // role === 'admin' &&
                                 <>
-                                    <li>
-                                        <MyLink to={'/dashboard/approve-riders'} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Approve Riders">
+                                    <li className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Manage Issues">
+                                        <MyLink to={'/dashboard/manage-issues'}>
                                             {/* my-parcels icon */}
                                             <span className="my-1.5 inline-block size-3">
-                                                <GiFullMotorcycleHelmet />
+                                                <MdManageHistory size={15} />
                                             </span>
 
-                                            <span className="is-drawer-close:hidden">Approve Riders</span>
+                                            <span className="is-drawer-close:hidden">Manage Issues</span>
                                         </MyLink>
                                     </li>
-
-                                    <li>
-                                        <MyLink to={'/dashboard/assign-riders'} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Assign Riders">
+                                    <li className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Admin Home">
+                                        <MyLink to={'/dashboard/admin-home'}>
                                             {/* my-parcels icon */}
                                             <span className="my-1.5 inline-block size-3">
-                                                <RiEBikeFill />
+                                                <HomeIcon size={15} />
                                             </span>
 
-                                            <span className="is-drawer-close:hidden">Assign Riders</span>
+                                            <span className="is-drawer-close:hidden">Admin Home</span>
                                         </MyLink>
                                     </li>
-
-                                    <li>
-                                        <MyLink to={'/dashboard/users-management'} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Users management">
+                                    <li className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Manage Staff">
+                                        <MyLink to={'/dashboard/manage-staff'}>
                                             {/* my-parcels icon */}
                                             <span className="my-1.5 inline-block size-3">
-                                                <FaUsers />
+                                                <GiSkullStaff size={15} />
                                             </span>
 
-                                            <span className="is-drawer-close:hidden">Users management</span>
+                                            <span className="is-drawer-close:hidden">Manage Staff</span>
+                                        </MyLink>
+                                    </li>
+                                    <li className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Payment History">
+                                        <MyLink to={'/dashboard/payment-history'}>
+                                            {/* my-parcels icon */}
+                                            <span className="my-1.5 inline-block size-3">
+                                                <RiSecurePaymentFill size={15} />
+                                            </span>
+
+                                            <span className="is-drawer-close:hidden">Payment History</span>
                                         </MyLink>
                                     </li>
                                 </>
-
                             }
+                            {
+                                //role=='staff' &&
+                                <>
+                                    <li className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Staff Home">
+                                        <MyLink to={'/dashboard/staff-home'}>
+                                            {/* my-parcels icon */}
+                                            <span className="my-1.5 inline-block size-3">
+                                                <HomeIcon size={15} />
+                                            </span>
+
+                                            <span className="is-drawer-close:hidden">Staff Home</span>
+                                        </MyLink>
+                                    </li>
+                                    <li className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Assigned Issues">
+                                        <MyLink to={'/dashboard/assigned-issues'}>
+                                            {/* my-parcels icon */}
+                                            <span className="my-1.5 inline-block size-3">
+                                                <MdAssignmentAdd size={15} />
+                                            </span>
+
+                                            <span className="is-drawer-close:hidden">Assigned Issues</span>
+                                        </MyLink>
+                                    </li>
+                                </>
+                            }
+                            {/* profile  */}
+                            <li className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="User Profile">
+                                <MyLink to={'/dashboard/my-profile'}>
+                                    {/* my-parcels icon */}
+                                    <span className="my-1.5 inline-block size-3">
+                                        <User2Icon size={15} />
+                                    </span>
+
+                                    <span className="is-drawer-close:hidden">User Profile</span>
+                                </MyLink>
+                            </li>
                             {/* List item */}
                             <li>
                                 <button className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Settings">
