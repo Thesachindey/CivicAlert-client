@@ -35,7 +35,7 @@ const UpdateInfo = () => {
       }));
 
       toast.success("Profile updated successfully");
-      navigate("/my-profile");
+      navigate("/dashboard/my-profile");
     } catch (error) {
       toast.error("Update profile failed");
     }
@@ -113,7 +113,7 @@ const UpdateInfo = () => {
             </p>
           </div>
 
-          {/* Preview */}
+          {/* Preview of uploaded img */}
           {preview && (
             <div className="flex justify-center pt-3">
               <div className="avatar">
