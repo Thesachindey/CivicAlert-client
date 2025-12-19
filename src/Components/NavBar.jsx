@@ -1,10 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router'; 
-import { FaArrowUp, FaUserPlus, FaCrown } from 'react-icons/fa'; 
+import { Link } from 'react-router';
+import { FaArrowUp, FaUserPlus, FaCrown } from 'react-icons/fa';
 import toast from 'react-hot-toast';
 import Logo from './Logo';
 import useAuth from '../Hooks/useAuth';
-import { useQuery } from '@tanstack/react-query'; 
+import { useQuery } from '@tanstack/react-query';
 import MyLink from './MyLink';
 import { motion, MotionConfig } from 'framer-motion';
 import { IoMdLogIn } from 'react-icons/io';
@@ -21,7 +21,7 @@ const NavBar = () => {
   const { user, logOut } = useAuth();
   const axiosSecure = useAxiosSecure();
 
-//check isPremium
+  //check isPremium
   const { data: dbUser } = useQuery({
     queryKey: ['navUser', user?.email],
     enabled: !!user?.email,
@@ -47,7 +47,7 @@ const NavBar = () => {
     <li><MyLink to="/">Home</MyLink></li>
     <li><MyLink to="/all-issues">All Issues</MyLink></li>
     {
-      dbUser?.role === 'citizen'&&
+      dbUser?.role === 'citizen' &&
       <>
         <li><MyLink to="/dashboard/my-issues">My Issues</MyLink></li>
       </>

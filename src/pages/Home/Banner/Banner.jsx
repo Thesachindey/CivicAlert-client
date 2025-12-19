@@ -11,7 +11,7 @@ const Banner = () => {
 
                 {/* Left Side: Text + CTA */}
                 <div className="flex-1 text-center lg:text-left">
-                    <h1 className="text-5xl font-extrabold text-secondary mb-4">Make Your City <br /><span className='text-primary'>Better</span>.</h1>
+                    <h1 className="text-5xl font-extrabold text-secondary mb-4">Make Your City <br /><span className='text-primary logo-font'>Better</span>.</h1>
                     <p className="text-xl mb-6">
                         Report public infrastructure issues and help improve your city. Track your reports, see progress in real-time, and make your city a better place to live.
                     </p>
