@@ -14,32 +14,31 @@ const SocialLogin = () => {
     const axiosSecure = useAxiosSecure();
 
 
-   const handelGoogleSignIn = () => {
-    signInGoogle()
-        .then((res) => {
-            console.log(res.user);
-            toast.success("Sign In with Google successfully.");
-            navigate(location?.state || '/');
+    const handelGoogleSignIn = () => {
+        signInGoogle()
+            .then((res) => {
+                console.log(res.user);
+                toast.success("Sign In with Google successfully.");
 
-            const userInfo = {
-                email: res.user.email,
-                displayName: res.user.displayName,   
-                photoURL: res.user.photoURL         
-            }
+                const userInfo = {
+                    email: res.user.email,
+                    displayName: res.user.displayName,
+                    photoURL: res.user.photoURL
+                }
 
-            // create user in database
-            axiosSecure.post('/users', userInfo)
-                .then((res) => {
-                    console.log('User data stored', res.data);
-
-                    // navigate
-                });
-        })
-        .catch((error) => {
-            console.log(error.code);
-            toast.error(error.code);
-        });
-};
+                // create user in database
+                axiosSecure.post('/users', userInfo)
+                    .then((res) => {
+                        console.log('User data stored', res.data);
+                        // navigate
+                        navigate(location?.state || '/');
+                    });
+            })
+            .catch((error) => {
+                console.log(error.code);
+                toast.error(error.code);
+            });
+    };
 
     return (
         <div >
