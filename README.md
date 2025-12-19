@@ -5,7 +5,7 @@
 
 
 ## 🔗 Live Links
-- **Live Site:** [Insert Your Firebase/Vercel Live Link Here]
+- **Live Site:** [CivicAlert](https://civicalert-ts.netlify.app/)
 - **Client Repo:** [https://github.com/Thesachindey/civicalert-client](https://github.com/Thesachindey/civicalert-client)
 - **Server Repo:** [https://github.com/Thesachindey/civicalert-server](https://github.com/Thesachindey/civicalert-server)
 
