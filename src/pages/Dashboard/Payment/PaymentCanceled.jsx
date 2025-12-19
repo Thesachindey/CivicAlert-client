@@ -7,7 +7,8 @@ const PaymentCanceled = () => {
     const navigate = useNavigate();
 
     return (
-        <div className="min-h-screen flex justify-center items-center bg-base-200">
+        <div className="py-4">
+        <div className="min-h-screen flex justify-center items-center rounded-3xl bg-base-200">
             <title>Payment Canceled</title>
             <motion.div 
                 initial={{ scale: 0.8, opacity: 0 }}
@@ -38,6 +39,7 @@ const PaymentCanceled = () => {
                     </button>
                 </div>
             </motion.div>
+        </div>
         </div>
     );
 };
