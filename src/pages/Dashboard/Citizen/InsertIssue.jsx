@@ -4,22 +4,12 @@ import { useNavigate } from "react-router";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
-import { useMutation } from "@tanstack/react-query";
-import {
-  FaHeading,
-  FaListAlt,
-  FaMapMarkerAlt,
-  FaImage,
-  FaExclamationTriangle,
-} from "react-icons/fa";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { FaImage, FaCrown, FaRocket } from "react-icons/fa";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import useAuth from "../../../Hooks/useAuth";
 import { imageUpload } from "../../../utils/img";
 import LoadingPage from "../../LoadingPage/LoadingPage";
-import ErrorPage from "../../ErrorPage";
-
-
-
 
 const InsertIssue = () => {
   const {
@@ -28,68 +18,137 @@ const InsertIssue = () => {
     formState: { errors },
     reset,
   } = useForm();
-
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  //query
-  const {
-    mutateAsync,
-    isPending,
-    isError,
-  } = useMutation({
+  const { data: userStats = {}, isLoading: statsLoading } = useQuery({
+    queryKey: ['userStats', user?.email],
+    enabled: !!user?.email,
+    queryFn: async () => {
+      const userRes = await axiosSecure.get(`/users/${user.email}`);
+      const issuesRes = await axiosSecure.get(`/my-issues/${user.email}`);
+      return {
+        isPremium: userRes.data?.isPremium,
+        postCount: issuesRes.data?.length || 0
+      };
+    }
+  });
+
+
+  const { mutateAsync, isPending } = useMutation({
     mutationFn: async (issueData) =>
       await axiosSecure.post("/issues", issueData),
-
     onSuccess: () => {
-      toast.success("Issue submitted successfully");
+      toast.success("Issue reported successfully!");
       reset();
-      // navigate("/all-issues");
+      navigate("/dashboard/my-issues");
     },
-
-    onError: () => {
-      toast.error("Something went wrong");
+    onError: (err) => {
+      console.error(err);
+      toast.error(err.response?.data?.message || "Failed to submit issue");
     },
   });
 
-  //submit fun
   const handleInsertIssue = async (data) => {
-    if (!user) {
-      return toast.error("Please login to submit an issue");
+    if (!user) return toast.error("Please login to submit an issue");
+
+    if (!userStats.isPremium && userStats.postCount >= 3) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Limit Reached',
+        text: 'Free users can only report 3 issues. Please upgrade to Premium!',
+        confirmButtonText: 'Upgrade Now',
+        showCancelButton: true
+      }).then((res) => {
+        if (res.isConfirmed) navigate('/dashboard/my-profile');
+      });
+      return;
+    }
+
+    if (data.priority === "High") {
+
+      const confirmPay = await Swal.fire({
+        title: "High Priority Required",
+        text: "This requires a 100tk fee. You will be redirected to Stripe to pay.",
+        icon: "info",
+        showCancelButton: true,
+        confirmButtonText: "Proceed to Payment",
+        cancelButtonText: "Switch to Normal",
+      });
+
+      if (confirmPay.isConfirmed) {
+        const toastId = toast.loading("Uploading image & Connecting to Stripe...");
+
+        try {
+          const imageUrl = await imageUpload(data.image[0]);
+
+          const issueData = {
+            title: data.title.trim(),
+            description: data.description.trim(),
+            category: data.category,
+            priority: "High",
+            location: data.location.trim(),
+            image: imageUrl,
+            status: "Pending",
+            createdBy: user.email,
+            creatorName: user.displayName,
+            creatorPhoto: user.photoURL,
+            createdAt: new Date().toISOString(),
+          };
+
+          const paymentInfo = {
+            amount: 100,
+            currency: 'bdt',
+            paymentType: 'issue_promotion',
+            customerName: user.displayName,
+            customerEmail: user.email,
+            issueData: issueData
+          };
+
+          const res = await axiosSecure.post('/create-checkout-session', paymentInfo);
+          if (res.data?.url) {
+            toast.success("Redirecting...", { id: toastId });
+            window.location.href = res.data.url;
+          } else {
+            toast.error("Failed to get payment URL", { id: toastId });
+          }
+
+        } catch (err) {
+          console.error(err);
+          toast.error("Error initiating payment", { id: toastId });
+        }
+      }
+      return;
     }
 
     const confirm = await Swal.fire({
-      title: "Submit Issue?",
+      title: "Submit Report?",
       text: "Are you sure you want to report this issue?",
       icon: "question",
       showCancelButton: true,
       confirmButtonText: "Yes, Submit",
-      cancelButtonText: "Cancel",
     });
 
     if (!confirm.isConfirmed) return;
 
     try {
-      // Image Upload Util
       const imageUrl = await imageUpload(data.image[0]);
 
       const issueData = {
         title: data.title.trim(),
         description: data.description.trim(),
         category: data.category,
-        priority: data.priority,
+        priority: "Normal",
         location: data.location.trim(),
         image: imageUrl,
         status: "Pending",
-
-        
         upvotes: 0,
         upvotedBy: [],
-
-        
         createdBy: user.email,
-        createdAt: new Date(),
+        creatorName: user.displayName,
+        creatorPhoto: user.photoURL,
+        createdAt: new Date().toISOString(),
       };
 
       await mutateAsync(issueData);
@@ -99,30 +158,38 @@ const InsertIssue = () => {
     }
   };
 
-  if (isPending) return <LoadingPage />
-
-  if (isError) return <ErrorPage />
+  if (statsLoading) return <LoadingPage />;
 
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.6 }}
-      className="min-h-screen flex justify-center items-center"
+      className="min-h-screen flex justify-center items-center py-10"
     >
+      {/* Form Container */}
       <motion.div
-        className="p-8 w-full max-w-3xl"
+        className="p-8 w-full max-w-3xl bg-base-100 shadow-xl rounded-2xl"
         initial={{ y: 30, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
       >
-        {/* Header */}
         <div className="text-center mb-6">
           <h2 className="text-4xl font-bold">
             Report an <span className="logo-font text-primary">Issue</span>
           </h2>
-          <p className="opacity-70 mt-1">
-            Help improve public infrastructure
-          </p>
+          <p className="opacity-70 mt-1">Help improve public infrastructure</p>
+
+          {/* premium feature  */}
+          {!userStats.isPremium && (
+            <div className="badge badge-warning gap-2 mt-3 p-3">
+              {userStats.postCount}/3 Free Reports Used
+            </div>
+          )}
+          {userStats.isPremium && (
+            <div className="badge badge-success text-white gap-2 mt-3 p-3">
+              <FaCrown /> Premium Unlimited Access
+            </div>
+          )}
         </div>
 
         <form onSubmit={handleSubmit(handleInsertIssue)}>
@@ -130,16 +197,15 @@ const InsertIssue = () => {
 
             {/* Title */}
             <div>
-              <label className="label">Issue Title</label>
+              <label className="label font-bold">Issue Title</label>
               <div className="relative">
-
                 <input
                   {...register("title", {
                     required: "Title is required",
                     minLength: { value: 10, message: "Min 10 characters" },
                   })}
-                  className="input w-full"
-                  placeholder="Broken street light near school"
+                  className="input input-bordered w-full"
+                  placeholder="Issue title"
                 />
               </div>
               <p className="text-red-500 text-sm">{errors.title?.message}</p>
@@ -147,7 +213,7 @@ const InsertIssue = () => {
 
             {/* Description */}
             <div>
-              <label className="label">Description</label>
+              <label className="label font-bold">Description</label>
               <textarea
                 {...register("description", {
                   required: "Description is required",
@@ -156,24 +222,18 @@ const InsertIssue = () => {
                 className="textarea textarea-bordered w-full"
                 rows={4}
               />
-              <p className="text-red-500 text-sm">
-                {errors.description?.message}
-              </p>
+              <p className="text-red-500 text-sm">{errors.description?.message}</p>
             </div>
 
             {/* Category & Priority */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-              {/* Category */}
               <div>
-                <label className="label">Category</label>
+                <label className="label font-bold">Category</label>
                 <div className="relative">
-
                   <select
-                    {...register("category", {
-                      required: "Category is required",
-                    })}
-                    className="select select-bordered w-full "
+                    {...register("category", { required: "Category is required" })}
+                    className="select select-bordered w-full"
                     defaultValue=""
                   >
                     <option value="" disabled>Select category</option>
@@ -182,94 +242,67 @@ const InsertIssue = () => {
                     <option>Street Lighting</option>
                     <option>Waste Management</option>
                     <option>Public Safety</option>
-                    <option>Footpath Damage</option>
-                    <option>Garbage Overflow</option>
-                    <option>Drainage Problem</option>
                     <option>Other</option>
                   </select>
                 </div>
-                <p className="text-red-500 text-sm">
-                  {errors.category?.message}
-                </p>
+                <p className="text-red-500 text-sm">{errors.category?.message}</p>
               </div>
 
-              {/* Priority */}
               <div>
-                <label className="label">Priority</label>
+                <label className="label font-bold">Priority Level</label>
                 <div className="relative">
-
                   <select
-                    {...register("priority", {
-                      required: "Priority is required",
-                    })}
+                    {...register("priority", { required: "Priority is required" })}
                     className="select select-bordered w-full"
-                    defaultValue=""
+                    defaultValue="Normal"
                   >
-                    <option value="" disabled>Select priority</option>
-                    {/* <option>High</option> */}
-                    <option>Normal</option>
+                    <option value="Normal">Normal (Free)</option>
+                    <option value="High">High (Paid Promotion)</option>
                   </select>
                 </div>
-                <p className="text-red-500 text-sm">
-                  {errors.priority?.message}
+                <p className="text-xs text-info mt-1 flex items-center gap-1">
+                  <FaRocket /> High priority issues require a small fee.
                 </p>
+                <p className="text-red-500 text-sm">{errors.priority?.message}</p>
               </div>
             </div>
 
             {/* Location */}
             <div>
-              <label className="label">Location</label>
+              <label className="label font-bold">Location</label>
               <div className="relative">
-
                 <input
-                  {...register("location", {
-                    required: "Location is required",
-                  })}
-                  className="input w-full "
-                  placeholder="Dhanmondi 32, Dhaka"
+                  {...register("location", { required: "Location is required" })}
+                  className="input input-bordered w-full"
+                  placeholder="Location"
                 />
               </div>
-              <p className="text-red-500 text-sm">
-                {errors.location?.message}
-              </p>
+              <p className="text-red-500 text-sm">{errors.location?.message}</p>
             </div>
 
             {/* Image */}
             <div>
-              <label className="label">Issue Image</label>
+              <label className="label font-bold">Issue Image</label>
               <div className="relative">
                 <FaImage className="absolute left-3 top-1/2 -translate-y-1/2 text-primary" />
                 <input
                   type="file"
-                  {...register("image", {
-                    required: "Image is required",
-                    validate: {
-                      fileType: (files) =>
-                        ["image/jpeg", "image/png", "image/webp"].includes(
-                          files[0]?.type
-                        ) || "Only JPG, PNG or WEBP allowed",
-                      fileSize: (files) =>
-                        files[0]?.size < 2 * 1024 * 1024 ||
-                        "Image must be less than 2MB",
-                    },
-                  })}
-                  className="file-input w-full pl-10"
+                  {...register("image", { required: "Image is required" })}
+                  className="file-input file-input-bordered w-full pl-10"
                 />
               </div>
-              <p className="text-red-500 text-sm">
-                {errors.image?.message}
-              </p>
+              <p className="text-red-500 text-sm">{errors.image?.message}</p>
             </div>
 
-            {/* Submit */}
             <motion.button
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.95 }}
-              className="btn btn-primary w-full text-base-100 text-lg mt-4"
+              disabled={isPending}
+              whileHover={!isPending ? { scale: 1.03 } : {}}
+              whileTap={!isPending ? { scale: 0.95 } : {}}
+              className={`btn btn-primary w-full text-base-100 text-lg mt-4 ${isPending ? "opacity-70 cursor-not-allowed" : ""
+                }`}
             >
-              {isPending ? "Submitting..." : "Submit Issue"}
+              {isPending ? "Processing..." : "Submit Report"}
             </motion.button>
-
           </fieldset>
         </form>
       </motion.div>
