@@ -58,7 +58,6 @@
 
 ### Features & Integrations
 * **Stripe:** Secure payment gateway integration.
-* **React Leaflet:** (Optional) For map-based issue visualization.
 * **Recharts:** For data visualization in dashboards.
 * **Swiper / React Responsive Carousel:** For banner and testimonial sliders.
 

@@ -7,10 +7,8 @@ import LoadingPage from '../../LoadingPage/LoadingPage';
 
 const LatestResolvedIssues = () => {
     
-    // Create a temporary instance here for public access
-    // ⚠️ REPLACE 'http://localhost:3000' with your live server link when deploying
     const axiosPublic = axios.create({
-        baseURL: 'http://localhost:3000' 
+        baseURL: 'https://civic-alert-server.vercel.app/' 
     });
 
     const { data: issues = [], isLoading } = useQuery({
