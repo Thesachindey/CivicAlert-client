@@ -1,20 +1,40 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link, Outlet } from 'react-router';
-import { FaBoxOpen, FaRegCreditCard, FaUsers } from 'react-icons/fa6';
-import { RiEBike2Line, RiEBikeFill, RiProfileFill, RiSecurePaymentFill } from "react-icons/ri";
+import { FaBoxOpen, FaRegCreditCard, FaUsers, FaUserSecret } from 'react-icons/fa6';
+import { RiEBike2Line, RiEBikeFill, RiProfileFill, RiSecurePaymentFill, RiUserSettingsFill, RiUserSettingsLine } from "react-icons/ri";
 // import useRole from '../Hooks/useRole';
-import { GiFullMotorcycleHelmet, GiSkullStaff } from "react-icons/gi";
+import { GiCrescentStaff, GiFullMotorcycleHelmet, GiSkullStaff } from "react-icons/gi";
 import Logo from '../Components/Logo';
-import { MdAssignmentAdd, MdDynamicFeed, MdManageHistory, MdOutlineCrisisAlert, MdReport } from 'react-icons/md';
+import { MdAssignment, MdAssignmentAdd, MdDynamicFeed, MdGroupWork, MdManageAccounts, MdManageHistory, MdOutlineCrisisAlert, MdOutlineManageAccounts, MdOutlineManageHistory, MdReport } from 'react-icons/md';
 import MyLink from '../Components/MyLink';
-import { HomeIcon, User2Icon } from 'lucide-react';
+import { GroupIcon, HomeIcon, User2Icon, UserStar } from 'lucide-react';
 import { FcManager } from 'react-icons/fc';
 import useRole from '../context/useRole';
+import { AuthContext } from '../context/AuthContext';
+import Swal from 'sweetalert2';
+import { BiLogOutCircle } from 'react-icons/bi';
+import ManageUsers from '../pages/Dashboard/Admin/ManageUsers';
 
 
 
 
 const DashboardLayout = () => {
+    const { logOut } = useContext(AuthContext);
+
+    const handleLogOut = () => {
+        Swal.fire({
+            title: "Log out?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            confirmButtonText: "Yes, log out",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                logOut();
+            }
+        });
+    };
+
 
     const { role } = useRole();
 
@@ -60,11 +80,11 @@ const DashboardLayout = () => {
 
 
 
-                            {/* Users citizen */}
+                            {/* User citizen */}
                             {
                                 role === 'citizen' &&
                                 <>
-                                {/* home  */}
+                                    {/* home  */}
                                     <li className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Citizen Home">
                                         <MyLink to={'/dashboard/citizen-home'}>
                                             {/* my-parcels icon */}
@@ -86,7 +106,7 @@ const DashboardLayout = () => {
                                             <span className="is-drawer-close:hidden">Report Issue</span>
                                         </MyLink>
                                     </li>
-                                    
+                                    {/* my issue  */}
                                     <li className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="My Issues">
                                         <MyLink to={'/dashboard/my-issues'}>
                                             {/* my-parcels icon */}
@@ -103,18 +123,9 @@ const DashboardLayout = () => {
                             }
                             {/* user admin  */}
                             {
-                                // role === 'admin' &&
+                                role === 'admin' &&
                                 <>
-                                    <li className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Manage Issues">
-                                        <MyLink to={'/dashboard/manage-issues'}>
-                                            {/* my-parcels icon */}
-                                            <span className="my-1.5 inline-block size-3">
-                                                <MdManageHistory size={15} />
-                                            </span>
-
-                                            <span className="is-drawer-close:hidden">Manage Issues</span>
-                                        </MyLink>
-                                    </li>
+                                    {/* home  */}
                                     <li className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Admin Home">
                                         <MyLink to={'/dashboard/admin-home'}>
                                             {/* my-parcels icon */}
@@ -125,31 +136,57 @@ const DashboardLayout = () => {
                                             <span className="is-drawer-close:hidden">Admin Home</span>
                                         </MyLink>
                                     </li>
+                                    {/* manage issue  */}
+                                    <li className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Manage Issues">
+                                        <MyLink to={'/dashboard/manage-issues'}>
+                                            {/* my-parcels icon */}
+                                            <span className="my-1.5 inline-block size-3">
+                                                <MdOutlineManageHistory size={15} />
+                                            </span>
+
+                                            <span className="is-drawer-close:hidden">Manage Issues</span>
+                                        </MyLink>
+                                    </li>
+                                    {/* Manage staff  */}
                                     <li className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Manage Staff">
                                         <MyLink to={'/dashboard/manage-staff'}>
                                             {/* my-parcels icon */}
                                             <span className="my-1.5 inline-block size-3">
-                                                <GiSkullStaff size={15} />
+                                                <MdOutlineManageAccounts size={15} />
                                             </span>
 
                                             <span className="is-drawer-close:hidden">Manage Staff</span>
                                         </MyLink>
                                     </li>
-                                    <li className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Payment History">
+                                    {/* manage citizen  */}
+                                    <li className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Manage Citizen">
+                                        <MyLink to={'/dashboard/manage-users'}>
+                                            {/* my-parcels icon */}
+                                            <span className="my-1.5 inline-block size-3">
+                                                <FaUsers size={15} />
+                                            </span>
+
+                                            <span className="is-drawer-close:hidden">Manage Citizen</span>
+                                        </MyLink>
+                                    </li>
+                                    {/* all payment history of citizen  */}
+                                    <li className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Payment History Of Citizen">
                                         <MyLink to={'/dashboard/payment-history'}>
                                             {/* my-parcels icon */}
                                             <span className="my-1.5 inline-block size-3">
                                                 <RiSecurePaymentFill size={15} />
                                             </span>
 
-                                            <span className="is-drawer-close:hidden">Payment History</span>
+                                            <span className="is-drawer-close:hidden">Payment History Of Citizen</span>
                                         </MyLink>
                                     </li>
                                 </>
                             }
+                            {/* staff  */}
                             {
-                                //role=='staff' &&
+                                role == 'staff' &&
                                 <>
+                                    {/* Home  */}
                                     <li className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Staff Home">
                                         <MyLink to={'/dashboard/staff-home'}>
                                             {/* my-parcels icon */}
@@ -160,11 +197,12 @@ const DashboardLayout = () => {
                                             <span className="is-drawer-close:hidden">Staff Home</span>
                                         </MyLink>
                                     </li>
+                                    {/* assigned issue  */}
                                     <li className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Assigned Issues">
                                         <MyLink to={'/dashboard/assigned-issues'}>
                                             {/* my-parcels icon */}
                                             <span className="my-1.5 inline-block size-3">
-                                                <MdAssignmentAdd size={15} />
+                                                <MdAssignment size={15} />
                                             </span>
 
                                             <span className="is-drawer-close:hidden">Assigned Issues</span>
@@ -172,24 +210,31 @@ const DashboardLayout = () => {
                                     </li>
                                 </>
                             }
+
+
+                        </ul>
+                        <ul className="menu w-full ">
                             {/* profile  */}
-                            <li className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="User Profile">
+                            <li className="is-drawer-close:tooltip  is-drawer-close:tooltip-right" data-tip="Profile Settings">
                                 <MyLink to={'/dashboard/my-profile'}>
                                     {/* my-parcels icon */}
                                     <span className="my-1.5 inline-block size-3">
-                                        <User2Icon size={15} />
+                                        <RiUserSettingsLine size={15} />
                                     </span>
 
-                                    <span className="is-drawer-close:hidden">User Profile</span>
+                                    <span className="is-drawer-close:hidden"> Profile Settings</span>
                                 </MyLink>
                             </li>
+
+
                             {/* List item */}
-                            <li>
-                                <button className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Settings">
-                                    {/* Settings icon */}
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" strokeLinejoin="round" strokeLinecap="round" strokeWidth="2" fill="none" stroke="currentColor" className="my-1.5 inline-block size-4"><path d="M20 7h-9"></path><path d="M14 17H5"></path><circle cx="17" cy="17" r="3"></circle><circle cx="7" cy="7" r="3"></circle></svg>
-                                    <span className="is-drawer-close:hidden">Settings</span>
-                                </button>
+                            <li className="is-drawer-close:tooltip  is-drawer-close:tooltip-right font-bold" data-tip="Logout">
+                                <span onClick={handleLogOut}>
+                                    <span className="my-1.5 inline-block size-3">
+                                        <BiLogOutCircle size={15} />
+                                    </span>
+                                    <span className="is-drawer-close:hidden">Logout</span>
+                                </span>
                             </li>
                         </ul>
                     </div>
