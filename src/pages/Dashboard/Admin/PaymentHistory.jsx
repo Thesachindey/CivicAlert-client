@@ -47,7 +47,7 @@ const PaymentHistory = () => {
                                 <td className="font-mono text-xs">{pay.transactionId}</td>
 
                                 <td className="font-bold text-success">
-                                    ${pay.amount}
+                                    ৳{pay.amount}
                                 </td>
 
                                 <td>

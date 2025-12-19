@@ -10,18 +10,18 @@ import LoadingPage from '../../LoadingPage/LoadingPage';
 const ManageStaff = () => {
     const axiosSecure = useAxiosSecure();
     const queryClient = useQueryClient();
- 
-    const { 
-        register: registerAdd, 
-        handleSubmit: handleSubmitAdd, 
-        reset: resetAdd, 
-        formState: { errors: errorsAdd } 
+
+    const {
+        register: registerAdd,
+        handleSubmit: handleSubmitAdd,
+        reset: resetAdd,
+        formState: { errors: errorsAdd }
     } = useForm();
 
-    const { 
-        register: registerEdit, 
-        handleSubmit: handleSubmitEdit, 
-        setValue: setValueEdit 
+    const {
+        register: registerEdit,
+        handleSubmit: handleSubmitEdit,
+        setValue: setValueEdit
     } = useForm();
 
     const [loading, setLoading] = useState(false);
@@ -35,7 +35,7 @@ const ManageStaff = () => {
                 return Array.isArray(res.data) ? res.data : [];
             } catch (error) {
                 console.error("Staff fetch error:", error);
-                return []; 
+                return [];
             }
         }
     });
@@ -58,7 +58,7 @@ const ManageStaff = () => {
         }
     });
 
-    
+
     const updateStaffMutation = useMutation({
         mutationFn: async ({ id, updatedData }) => {
             return await axiosSecure.put(`/users/staff/${id}`, updatedData);
@@ -76,7 +76,7 @@ const ManageStaff = () => {
         }
     });
 
- 
+
     const deleteStaffMutation = useMutation({
         mutationFn: async (id) => await axiosSecure.delete(`/users/staff/${id}`),
         onSuccess: () => {
@@ -90,9 +90,9 @@ const ManageStaff = () => {
         const staffData = {
             name: data.name,
             email: data.email,
-            password: data.password, 
+            password: data.password,
             role: 'staff',
-            photoURL: "https://i.ibb.co/Zm9J5M4/user-placeholder.png", 
+            photoURL: "https://i.ibb.co/Zm9J5M4/user-placeholder.png",
             createdAt: new Date()
         };
         addStaffMutation.mutate(staffData);
@@ -101,7 +101,7 @@ const ManageStaff = () => {
     const openEditModal = (staff) => {
         setSelectedStaff(staff);
         setValueEdit("name", staff.name);
-        setValueEdit("email", staff.email); 
+        setValueEdit("email", staff.email);
         document.getElementById('edit_staff_modal').showModal();
     };
 
@@ -133,25 +133,27 @@ const ManageStaff = () => {
     if (isLoading) return <LoadingPage />;
 
     return (
-        <div className="p-8 bg-base-100 min-h-screen">
+        <div className="p-4 md:p-8 bg-base-100 min-h-screen">
             <title>Manage Staff</title>
-            <div className="flex justify-between items-end mb-6">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-6 gap-4">
                 <div>
-                    <h2 className="text-3xl font-bold">Manage <span className="text-primary">Staff</span></h2>
+                    <h2 className="text-2xl md:text-3xl font-bold">Manage <span className="text-primary">Staff</span></h2>
                     {/* Safety Check for Length */}
-                    <p className="opacity-60">Total Staff Members: {staffList?.length || 0}</p>
+                    <p className="opacity-60 text-sm md:text-base">Total Staff Members: {staffList?.length || 0}</p>
                 </div>
-                <button 
+
+                <button
                     onClick={() => document.getElementById('add_staff_modal').showModal()}
-                    className="btn btn-primary text-white shadow-lg gap-2"
+                    className="btn btn-primary text-white shadow-lg gap-2 w-full sm:w-auto"
                 >
                     <FaPlus /> Add Staff
                 </button>
             </div>
 
-            <div className="overflow-x-auto shadow-xl rounded-2xl border border-base-200">
+
+            <div className="overflow-x-auto shadow-xl rounded-2xl border border-base-200 bg-white">
                 <table className="table w-full">
-                    <thead className="bg-base-200 uppercase text-sm">
+                    <thead className="bg-base-200 uppercase text-xs md:text-sm">
                         <tr>
                             <th>Staff Profile</th>
                             <th>Contact</th>
@@ -160,33 +162,39 @@ const ManageStaff = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {/* 🚨 CRITICAL FIX: Check if staffList is actually an array before mapping */}
+
                         {Array.isArray(staffList) && staffList.map((staff) => (
-                            <tr key={staff._id} className="hover:bg-base-50">
+                            <tr key={staff._id} className="hover:bg-base-50 whitespace-nowrap">
                                 <td>
                                     <div className="flex items-center gap-3">
                                         <div className="avatar">
-                                            <div className="mask mask-squircle w-12 h-12">
-                                                <img src={staff.photoURL || "https://i.ibb.co/Zm9J5M4/user-placeholder.png"} alt="Avatar" />
+                                            <div className="mask mask-squircle w-10 h-10 md:w-12 md:h-12">
+                                                <img
+                                                    src={staff.photoURL || "https://i.ibb.co/Zm9J5M4/user-placeholder.png"}
+                                                    alt="Avatar"
+                                                    className="object-cover"
+                                                />
                                             </div>
                                         </div>
                                         <div>
-                                            <div className="font-bold">{staff.name}</div>
-                                            <div className="text-xs opacity-50">Joined: {new Date(staff.createdAt).toLocaleDateString()}</div>
+                                            <div className="font-bold text-sm md:text-base">{staff.name}</div>
+                                            <div className="text-xs opacity-50">
+                                                Joined: {new Date(staff.createdAt).toLocaleDateString()}
+                                            </div>
                                         </div>
                                     </div>
                                 </td>
-                                
-                                <td className="font-mono text-xs">{staff.email}</td>
+
+                                <td className="font-mono text-xs md:text-sm">{staff.email}</td>
 
                                 <td>
-                                    <div className="badge badge-info gap-1 text-white font-bold p-3">
+                                    <div className="badge badge-info gap-1 text-white font-bold p-3 text-xs md:text-sm">
                                         <FaUserTie /> Staff
                                     </div>
                                 </td>
 
                                 <td className="flex justify-center gap-2">
-                                    <button 
+                                    <button
                                         onClick={() => openEditModal(staff)}
                                         className="btn btn-sm btn-square btn-ghost text-warning tooltip"
                                         data-tip="Edit Staff"
@@ -194,7 +202,7 @@ const ManageStaff = () => {
                                         <FaEdit size={16} />
                                     </button>
 
-                                    <button 
+                                    <button
                                         onClick={() => handleDelete(staff._id)}
                                         className="btn btn-sm btn-square btn-ghost text-error tooltip"
                                         data-tip="Delete Staff"
@@ -206,7 +214,7 @@ const ManageStaff = () => {
                         ))}
                     </tbody>
                 </table>
-                
+
                 {/* Empty State Logic */}
                 {(!Array.isArray(staffList) || staffList.length === 0) && (
                     <div className="text-center py-10 opacity-50">
@@ -216,12 +224,13 @@ const ManageStaff = () => {
                 )}
             </div>
 
-         
             <dialog id="add_staff_modal" className="modal">
-                <div className="modal-box">
+                <div className="modal-box w-11/12 max-w-md">
                     <button onClick={() => document.getElementById('add_staff_modal').close()} className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
-                    <h3 className="font-bold text-lg mb-4 flex items-center gap-2"><FaUserTie className="text-primary"/> Add New Staff</h3>
-                    
+                    <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
+                        <FaUserTie className="text-primary" /> Add New Staff
+                    </h3>
+
                     <form onSubmit={handleSubmitAdd(handleAddStaff)} className="space-y-4">
                         <div className="form-control">
                             <label className="label font-bold">Full Name</label>
@@ -242,18 +251,19 @@ const ManageStaff = () => {
                     </form>
                 </div>
             </dialog>
-
             <dialog id="edit_staff_modal" className="modal">
-                <div className="modal-box">
+                <div className="modal-box w-11/12 max-w-md">
                     <button onClick={() => document.getElementById('edit_staff_modal').close()} className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
-                    <h3 className="font-bold text-lg mb-4 flex items-center gap-2"><FaEdit className="text-warning"/> Update Staff</h3>
-                    
+                    <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
+                        <FaEdit className="text-warning" /> Update Staff
+                    </h3>
+
                     <form onSubmit={handleSubmitEdit(handleUpdateStaff)} className="space-y-4">
                         <div className="form-control">
                             <label className="label font-bold">Full Name</label>
                             <input {...registerEdit("name", { required: true })} type="text" className="input input-bordered w-full" />
                         </div>
-                        
+
                         <div className="form-control">
                             <label className="label font-bold">Email (Cannot be changed)</label>
                             <input {...registerEdit("email")} type="email" readOnly className="input input-bordered w-full bg-base-200 cursor-not-allowed" />
