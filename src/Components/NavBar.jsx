@@ -1,22 +1,35 @@
 import React from 'react';
-import { Link } from 'react-router';
-import { FaArrowUp, FaUserPlus } from 'react-icons/fa';
+import { Link } from 'react-router'; 
+import { FaArrowUp, FaUserPlus, FaCrown } from 'react-icons/fa'; 
 import toast from 'react-hot-toast';
 import Logo from './Logo';
 import useAuth from '../Hooks/useAuth';
+import { useQuery } from '@tanstack/react-query'; 
 import MyLink from './MyLink';
 import { motion, MotionConfig } from 'framer-motion';
 import { IoMdLogIn } from 'react-icons/io';
 import { BiLogOutCircle } from 'react-icons/bi';
 import { Calendar, Home, ListChecks, PlusCircle, User, UserCheck } from 'lucide-react'
 import { MdDashboard } from 'react-icons/md';
-import { HiOutlineMenuAlt3 } from "react-icons/hi";
 import { FaUserCircle } from "react-icons/fa";
+import useAxiosSecure from '../Hooks/useAxiosSecure';
+
 
 
 
 const NavBar = () => {
   const { user, logOut } = useAuth();
+  const axiosSecure = useAxiosSecure();
+
+//check isPremium
+  const { data: dbUser } = useQuery({
+    queryKey: ['navUser', user?.email],
+    enabled: !!user?.email,
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/users/${user?.email}`);
+      return res.data;
+    }
+  });
 
   const handelLogout = () => {
     logOut()
@@ -29,21 +42,17 @@ const NavBar = () => {
       })
   }
 
-
-
   // nav links 
   const Links = <>
     <li><MyLink to="/">Home</MyLink></li>
     <li><MyLink to="/all-issues">All Issues</MyLink></li>
-    <li><MyLink to="/about-us">About Us</MyLink></li>
-    <li><MyLink to="/coverage">Coverage</MyLink></li>
-
     {
-      user &&
+      dbUser?.role === 'citizen'&&
       <>
-        <li><MyLink to="/dashboard/my-parcels">My Parcels</MyLink></li>
+        <li><MyLink to="/dashboard/my-issues">My Issues</MyLink></li>
       </>
     }
+    <li><MyLink to="/about-us">About Us</MyLink></li>
   </>
 
   return (
@@ -83,37 +92,42 @@ const NavBar = () => {
                 >
                   <div className="relative w-14 h-14 flex items-center justify-center">
 
-
                     <motion.div
                       className="absolute flex items-center justify-center pointer-events-none"
                       animate={{ rotate: 360 }}
                       transition={{ repeat: Infinity, duration: 2.8, ease: "linear" }}
                     >
-                      <div className="w-12 h-12 rounded-full bg-gradient-to-tr 
-            from-gray-400 via-blue-300 to-purple-300 p-[2px]">
+                      {/* Change border color if isPremium */}
+                      <div className={`w-12 h-12 rounded-full bg-gradient-to-tr p-[2px] 
+                        ${dbUser?.isPremium ? 'from-yellow-400 via-amber-300 to-yellow-600' : 'from-gray-400 via-blue-300 to-purple-300'}`}>
                         <div className="w-full h-full rounded-full bg-base-100"></div>
                       </div>
                     </motion.div>
-
 
                     <div className="relative z-10 w-10 h-10 rounded-full overflow-hidden cursor-pointer">
                       <img
                         alt={user.name}
                         src={(user?.photoURL) || "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"}
-
                         className="w-full h-full object-cover"
                       />
                     </div>
+
+                    {/* is premium  */}
+                    {dbUser?.isPremium && (
+                      <div className="absolute top-0 right-0 z-20 bg-amber-400 text-white p-1 rounded-full shadow-md border-2 border-base-100">
+                        <FaCrown size={10} />
+                      </div>
+                    )}
+
                   </div>
                 </div>
-
 
                 <ul
                   tabIndex={-1}
                   className="menu menu-sm dropdown-content bg-base-100 rounded-box border z-100 mt-3 space-y-2 w-52 p-2 shadow"
                 >
                   <li>
-                    <MyLink to={'/my-profile'} className="justify-between">
+                    <MyLink to={'/dashboard/my-profile'} className="justify-between">
                       <span className="flex items-center gap-2">
                         <User className="w-4 h-4" />
                         My Profile
@@ -133,7 +147,6 @@ const NavBar = () => {
                     <button onClick={handelLogout} className="flex justify-center items-center bg-primary text-white  hover:bg-green-500 btn btn-outline border-black transition-colors cursor-pointer "><BiLogOutCircle />LogOut</button>
                   </li>
 
-
                 </ul>
               </div>
 
@@ -142,7 +155,6 @@ const NavBar = () => {
             :
 
             <div className="dropdown dropdown-end">
-              {/* Trigger */}
               <div
                 tabIndex={0}
                 className="tooltip tooltip-bottom"
@@ -153,7 +165,6 @@ const NavBar = () => {
                 </button>
               </div>
 
-              {/* Dropdown content */}
               <ul
                 tabIndex={0}
                 className="dropdown-content menu p-3 shadow bg-base-100 rounded-box w-52 space-y-2"
@@ -179,8 +190,6 @@ const NavBar = () => {
                 </li>
               </ul>
             </div>
-
-
 
           }
         </div>
