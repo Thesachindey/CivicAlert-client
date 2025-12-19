@@ -23,7 +23,6 @@ const useAxiosSecure = () => {
       return config
     })
 
-    //interceptor response
     const resInterceptor = axiosSecure.interceptors.response.use((response) => {
       return response;
     }, (error) => {

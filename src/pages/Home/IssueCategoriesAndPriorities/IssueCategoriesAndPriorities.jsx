@@ -57,9 +57,7 @@ export default function IssueFeaturesSection() {
 
         {/* Header */}
         <div className="text-center mb-14">
-          <span className="text-sm font-semibold text-primary uppercase tracking-wide">
-            Features
-          </span>
+         
           <h2 className="text-3xl md:text-4xl font-bold mt-2">
             Issues citizens can report using{" "}
             <span className="logo-font text-primary">CivicAlert</span>
@@ -83,7 +81,7 @@ export default function IssueFeaturesSection() {
                 viewport={{ once: true }}
                 className="rounded-2xl border bg-white shadow-sm hover:shadow-lg transition"
               >
-                {/* Visual / Image Area */}
+                {/* Image Area */}
                 <div
                   className={`h-40 rounded-t-2xl flex items-center justify-center ${item.bg}`}
                 >

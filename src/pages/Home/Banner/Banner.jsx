@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router';
-// import bannerImage from '../assets/banner-image.png'; // replace with your illustration
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
 
@@ -25,7 +24,6 @@ const Banner = () => {
                     </Link>
                 </div>
 
-                {/* Right Side: Illustration/Image */}
                 <div className="flex-1">
                     
                     <DotLottieReact

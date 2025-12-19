@@ -23,7 +23,6 @@ const PaymentSuccess = () => {
                 setLoading(false);
                 return;
             }
-
             try {
                 const res = await axiosSecure.post('/payment-success', { sessionId });
                 

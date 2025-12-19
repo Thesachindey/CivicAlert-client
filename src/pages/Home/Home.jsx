@@ -4,18 +4,20 @@ import Features from './Features/Features';
 import HowItWorks from './HowItWork/HowItWorks';
 import IssueCategoriesAndPriorities from './IssueCategoriesAndPriorities/IssueCategoriesAndPriorities';
 import CommunityImpact from './CommunityImpact/CommunityImpact';
+import LatestResolvedIssues from './LatestResolvedIssues/LatestResolvedIssues';
 
 const Home = () => {
     return (
         <div>
             <header>
-           <Banner/>
+                <Banner />
             </header>
             <main>
-                <Features/>
-                <HowItWorks/>
-                <CommunityImpact/>
-                <IssueCategoriesAndPriorities/>
+                <Features />
+                <LatestResolvedIssues />
+                <HowItWorks />
+                <CommunityImpact />
+                <IssueCategoriesAndPriorities />
             </main>
         </div>
     );

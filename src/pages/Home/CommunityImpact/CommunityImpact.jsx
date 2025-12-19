@@ -45,12 +45,12 @@ const CommunityImpact = () => {
             <motion.div
               key={index}
               whileHover={{ scale: 1.05 }}
-              className="bg-base-100 p-6 rounded-2xl shadow-md"
+              className="bg-base-100 p-6 rounded-2xl  shadow-md"
             >
               <div className={`text-4xl mb-3 ${item.color}`}>
                 {item.icon}
               </div>
-              <h3 className="text-2xl font-bold">{item.value}</h3>
+              <h3 className="text-3xl md:text-5xl logo-font text-secondary/80 font-bold">{item.value}</h3>
               <p className="text-sm text-base-content/60">{item.label}</p>
             </motion.div>
           ))}
