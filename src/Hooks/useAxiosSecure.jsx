@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router';
 
 
 const axiosSecure = axios.create({
-  baseURL: 'http://localhost:3000',
+  baseURL: 'https://civic-alert-server.vercel.app/',
 
 });
 

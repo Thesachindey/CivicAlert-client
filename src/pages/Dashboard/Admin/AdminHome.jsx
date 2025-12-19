@@ -29,6 +29,7 @@ const AdminHome = () => {
 
     return (
         <div className="p-8 bg-base-100 min-h-screen">
+            <title>Admin Dashboard</title>
             <h2 className="text-3xl font-bold mb-6">
                 Welcome back, <span className="text-primary">{user?.displayName}</span>
             </h2>

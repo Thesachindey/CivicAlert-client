@@ -7,7 +7,7 @@ const NotFoundPage = () => {
     const navigate = useNavigate()
     return (
         <div className="min-h-screen flex flex-col justify-center items-center bg-base-200 text-center px-6">
-
+            <title>Page Not Found</title>
             {/* Animation */}
             <motion.div
                 initial={{ opacity: 0, y: 30 }}

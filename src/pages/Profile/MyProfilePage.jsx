@@ -70,7 +70,7 @@ const MyProfilePage = () => {
   return (
     <div className="py-2 px-2">
       <div className="min-h-screen bg-base-200 flex items-center justify-center p-4 relative overflow-hidden rounded-3xl">
-        <title>My Profile | Civic Alert</title>
+        <title>My Profile - Civic Alert</title>
 
         {/* Glow Effects */}
         <div className="absolute top-20 left-10 w-72 h-72 bg-primary/20 rounded-full blur-3xl" />

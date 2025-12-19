@@ -71,7 +71,7 @@ const ManageUsers = () => {
 
     return (
         <div className="p-4 md:p-8 bg-base-100 min-h-screen">
-            
+            <title>Manage Citizens</title>
             {/* header */}
             <div className="flex flex-col md:flex-row justify-between items-end mb-6 gap-4">
                 <div>

@@ -61,7 +61,7 @@ const MyIssues = () => {
 
     return (
         <div className="p-8 bg-base-100 min-h-screen">
-            
+            <title>My Issues</title>
             {/* Header & Controls */}
             <div className="flex flex-col md:flex-row justify-between items-end mb-8 gap-4">
                 <div>

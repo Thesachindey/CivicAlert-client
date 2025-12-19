@@ -101,6 +101,7 @@ const UpdateIssue = () => {
       transition={{ duration: 0.6 }}
       className="min-h-screen flex justify-center items-center py-10"
     >
+      <title>Update Issue</title>
       <motion.div
         className="p-8 w-full max-w-3xl bg-base-100 shadow-xl rounded-2xl border border-base-200"
         initial={{ y: 30, opacity: 0 }}

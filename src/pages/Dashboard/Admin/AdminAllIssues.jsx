@@ -84,6 +84,7 @@ const AdminAllIssues = () => {
 
     return (
         <div className="p-8 bg-base-100 min-h-screen">
+            <title>Admin Issues</title>
             <h2 className="text-3xl font-bold mb-6">Manage <span className="text-primary">Issues</span></h2>
 
             <div className="overflow-x-auto shadow-xl rounded-2xl border border-base-200">

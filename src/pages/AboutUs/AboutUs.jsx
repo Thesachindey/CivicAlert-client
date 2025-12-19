@@ -54,6 +54,7 @@ export default function AboutUs() {
 
     return (
         <div className="p-6 lg:p-12 bg-base-200 text-base-content rounded-3xl shadow mt-10">
+            <title>About Us</title>
             <h1 className="text-4xl font-bold mb-3">About Us</h1>
             <p className="text-sm mb-8 text-gray-600">
                 A digital platform that enables citizens to report public infrastructure issues, track progress,

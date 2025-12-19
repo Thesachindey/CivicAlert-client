@@ -29,6 +29,7 @@ const AllIssues = () => {
 
     return (
         <div className="py-10 min-h-screen bg-base-100">
+            <title>All Issues</title>
             <div className='bg-base-200 p-4 sm:p-10 lg:p-20 rounded-3xl max-w-7xl mx-auto'>
                 
                 <div className="text-center pb-10 sm:px-10">

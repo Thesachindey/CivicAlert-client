@@ -120,6 +120,7 @@ const IssueDetails = () => {
 
   return (
 <div className="py-4">
+  <title>Issue Details</title>
     <div className="min-h-screen bg-gray-50 py-10 px-4 font-sans rounded-3xl">
       <motion.div
         initial={{ opacity: 0, y: 20 }}

@@ -8,6 +8,7 @@ const PaymentCanceled = () => {
 
     return (
         <div className="min-h-screen flex justify-center items-center bg-base-200">
+            <title>Payment Canceled</title>
             <motion.div 
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}

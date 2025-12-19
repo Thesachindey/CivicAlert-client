@@ -134,7 +134,7 @@ const ManageStaff = () => {
 
     return (
         <div className="p-8 bg-base-100 min-h-screen">
-            
+            <title>Manage Staff</title>
             <div className="flex justify-between items-end mb-6">
                 <div>
                     <h2 className="text-3xl font-bold">Manage <span className="text-primary">Staff</span></h2>

@@ -29,7 +29,7 @@ const CitizenHome = () => {
 
     return (
         <div className="p-4 md:p-8 bg-base-100 min-h-screen">
-            
+            <title>Citizen Dashboard</title>
             {/* Header Section */}
             <div className="mb-8">
                 <h2 className="text-2xl md:text-3xl font-bold">

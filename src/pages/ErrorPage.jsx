@@ -5,6 +5,7 @@ const ErrorPage = () => {
 
   return (
     <section className='bg-white '>
+      <title>Page Not Found - Civic Alert</title>
       <div className='container flex items-center min-h-screen px-6 py-12 mx-auto'>
         <div className='flex flex-col items-center max-w-sm mx-auto text-center'>
           <p className='p-3 text-sm font-medium text-lime-500 rounded-full bg-blue-50 '>

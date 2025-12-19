@@ -57,7 +57,7 @@ const PaymentSuccess = () => {
 
     return (
         <div className="min-h-screen flex justify-center items-center bg-base-200 relative overflow-hidden">
- 
+            <title>Payment Success</title>
             {status === 'success' && <Confetti width={window.innerWidth} height={window.innerHeight} recycle={false} numberOfPieces={500} />}
 
             <motion.div 

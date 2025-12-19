@@ -19,6 +19,7 @@ const PaymentHistory = () => {
 
     return (
         <div className="p-8 bg-base-100 min-h-screen">
+            <title>Payment History</title>
             <h2 className="text-3xl font-bold mb-6">Payment <span className="text-primary">History</span></h2>
 
             <div className="overflow-x-auto shadow-xl rounded-2xl border border-base-200">

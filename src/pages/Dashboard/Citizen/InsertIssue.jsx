@@ -167,6 +167,7 @@ const InsertIssue = () => {
       transition={{ duration: 0.6 }}
       className="min-h-screen flex justify-center items-center py-10"
     >
+      <title>Insert Issue</title>
       {/* Form Container */}
       <motion.div
         className="p-8 w-full max-w-3xl bg-base-100 shadow-xl rounded-2xl"

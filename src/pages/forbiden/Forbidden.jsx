@@ -4,6 +4,7 @@ import { Link } from "react-router";
 const Forbidden = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-base-200 px-4">
+      <title>Forbidden</title>
       <div className="max-w-md w-full bg-base-100 rounded-2xl shadow-lg p-8 text-center">
         
         {/* Icon */}

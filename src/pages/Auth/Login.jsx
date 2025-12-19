@@ -76,6 +76,7 @@ const Login = () => {
             transition={{ duration: 0.8 }}
             className="min-h-screen  flex justify-center items-center bg-base-100 relative"
         >
+            <title>Login</title>
             {/* Glow Effects */}
             <div className="absolute top-10 left-10 w-72 h-72 bg-primary/30 rounded-full blur-3xl" />
             <div className="absolute bottom-10 right-10 w-72 h-72 bg-secondary/30 rounded-full blur-3xl" />

@@ -9,6 +9,7 @@ import LatestResolvedIssues from './LatestResolvedIssues/LatestResolvedIssues';
 const Home = () => {
     return (
         <div>
+            <title>Home</title>
             <header>
                 <Banner />
             </header>
