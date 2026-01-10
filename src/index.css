@@ -1,42 +1,45 @@
-@import url('https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
+
 @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
 @import "tailwindcss";
 
 @plugin "daisyui" {
   themes: dark --default, light;
 }
 
-/* --- LIGHT THEME (New: Clean & Premium) --- */
+
 @plugin "daisyui/theme" {
   name: "light";
   default: true;
-  --color-primary: #08CB00;       /* Your Brand Green */
-  --color-secondary: #253900;     /* Dark Green (Contrast for light bg) */
-  --color-base-100: #FFFFFF;      /* White Background */
-  --color-base-200: #F3F4F6;      /* Light Gray for cards */
-  --color-base-content: #000000;  /* Black Text */
+  --color-primary: #08CB00;        
+  --color-secondary: #253900;      
+  --color-base-100: #FFFFFF;      
+  --color-base-200: #F3F4F6;       
+  --color-base-content: #000000;  
 }
 
-/* --- DARK THEME (Your original colors moved here) --- */
 @plugin "daisyui/theme" {
   name: "dark";
-  --color-primary: #08CB00;       /* Your Brand Green (Buttons only) */
+  --color-primary: #08CB00;      
   --color-secondary: #EEEEEE;
-  
-  --color-base-100: #050505;      /* Premium Black */
-  --color-base-200: #1a1a1a;      /* Neutral Dark Gray (REPLACED the green tint) */
+
+  --color-base-100: #050505;      
+  --color-base-200: #1a1a1a;      
   
   --color-base-content: #FFFFFF;
 }
 
 body {
-  /* Kept exactly as you had it */
-  font-family: "Work Sans", sans-serif;
+  /* font-family: "Work Sans", sans-serif; */
+  
+/* font-family: 'Clash Grotesk', sans-serif; */
+font-family: 'Chillax', sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
 }
 
 .logo-font {
   font-family: "Josefin Sans", sans-serif;
+  /* font-family: 'Sharpie', sans-serif; */
+  
 }
