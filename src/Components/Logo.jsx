@@ -5,7 +5,7 @@ const Logo = () => {
     return (
         <Link to={'/'}>
             <div className="logo-font flex items-end">
-            <MdOutlineCrisisAlert className='text-green-400 font-bold' size={45} />
+            <MdOutlineCrisisAlert className='text-primary font-bold' size={45} />
             <h2 className='text-3xl font-extrabold -ms-9'>CivicAlert</h2>
             </div>
             

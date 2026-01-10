@@ -56,8 +56,8 @@ const NavBar = () => {
   </>
 
   return (
-    <div className=''>
-      <div className="navbar shadow bg-base-200 rounded-b-xl ">
+    <div className='bg-base-200 shadow'>
+      <div className="navbar  max-w-7xl mx-auto px-5">
         <div className="navbar-start">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="px-3 py-4 cursor-pointer transform transition duration-300 hover:scale-105 hover:text-primary lg:hidden">
@@ -77,7 +77,7 @@ const NavBar = () => {
             {Links}
           </ul>
         </div>
-        <div className="navbar-end  pr-10 ">
+        <div className="navbar-end">
           {/* btn  */}
 
           {user ?

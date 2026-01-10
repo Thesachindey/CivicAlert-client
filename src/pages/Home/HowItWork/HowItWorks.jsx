@@ -107,8 +107,8 @@ const HowItWorks = () => {
         }}
       >
         {steps.map((item, index) => (
-          <SwiperSlide key={index}>
-            <div className="bg-base-100 p-6 rounded-xl shadow-lg text-center space-y-4 ">
+          <SwiperSlide key={index} className="">
+            <div className="bg-base-100 p-6 shadow-lg rounded-3xl text-center space-y-4 ">
               <div className="text-sm font-semibold text-primary">
                 {item.step}
               </div>
