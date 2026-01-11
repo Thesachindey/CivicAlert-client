@@ -1,45 +1,56 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap');
-
 @import "tailwindcss";
 
 @plugin "daisyui" {
   themes: dark --default, light;
 }
 
-
+/* --- LIGHT THEME (Emerald Clean) --- */
 @plugin "daisyui/theme" {
   name: "light";
-  default: true;
-  --color-primary: #08CB00;        
-  --color-secondary: #253900;      
-  --color-base-100: #FFFFFF;      
-  --color-base-200: #F3F4F6;       
-  --color-base-content: #000000;  
+  
+  --color-primary: #08CB00;         /* Your Emerald Green */
+  --color-primary-content: #021100; /* VERY IMPORTANT: Dark green text on green buttons for readability */
+  
+  --color-secondary: #1a2e05;       /* Deep Forest Green for headings */
+  --color-secondary-content: #FFFFFF;
+
+  --color-base-100: #FFFFFF;        /* Main background */
+  --color-base-200: #F8FAFC;        /* Subtle off-white for section backgrounds */
+  --color-base-300: #E2E8F0;        /* Borders for Light Glass cards */
+  
+  --color-base-content: #0F172A;    /* Soft Slate Black (Better than pure #000) */
+  
+  /* State Colors */
+  --color-info: #0ea5e9;
+  --color-success: #08CB00;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
 }
 
+/* --- DARK THEME (Emerald Glass) --- */
 @plugin "daisyui/theme" {
   name: "dark";
-  --color-primary: #08CB00;      
-  --color-secondary: #EEEEEE;
+  default: true;
+  
+  --color-primary: #08CB00;
+  --color-primary-content: #FFFFFF;
 
-  --color-base-100: #050505;      
-  --color-base-200: #1a1a1a;      
+  --color-secondary: #EEEEEE;
+  
+  --color-base-100: #050505;        /* Deep Black */
+  --color-base-200: #111111;        /* Dark Grey Card Background */
+  --color-base-300: #1a1a1a;        /* Border color */
   
   --color-base-content: #FFFFFF;
 }
 
 body {
-  /* font-family: "Work Sans", sans-serif; */
-  
-/* font-family: 'Clash Grotesk', sans-serif; */
-font-family: 'Chillax', sans-serif;
+  font-family: 'Chillax', sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
 }
 
 .logo-font {
   font-family: "Josefin Sans", sans-serif;
-  /* font-family: 'Sharpie', sans-serif; */
-  
 }

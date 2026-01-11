@@ -5,6 +5,9 @@ import HowItWorks from './HowItWork/HowItWorks';
 import IssueCategoriesAndPriorities from './IssueCategoriesAndPriorities/IssueCategoriesAndPriorities';
 import CommunityImpact from './CommunityImpact/CommunityImpact';
 import LatestResolvedIssues from './LatestResolvedIssues/LatestResolvedIssues';
+import FAQ from './FAQ/FAQ';
+import Testimonials from './Testimonials/Testimonials';
+import Pricing from './Pricing/Pricing';
 
 const Home = () => {
     return (
@@ -19,6 +22,9 @@ const Home = () => {
                 <HowItWorks />
                 <CommunityImpact />
                 <IssueCategoriesAndPriorities />
+                <Testimonials/>
+                <Pricing/>
+                <FAQ/>
             </main>
         </div>
     );

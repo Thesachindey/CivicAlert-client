@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router';
 import { FaUserPlus, FaCrown, FaUserCircle, FaBars, FaTimes, FaShieldAlt } from 'react-icons/fa';
-// --- ADDED LINE ICONS ---
+// --- RESTORED LINE ICONS ---
 import { HiOutlineHome, HiOutlineClipboardDocumentList, HiOutlineUserGroup, HiOutlineInformationCircle } from "react-icons/hi2";
 import toast from 'react-hot-toast';
+import Swal from 'sweetalert2'; 
 import Logo from './Logo';
 import useAuth from '../Hooks/useAuth';
 import { useQuery } from '@tanstack/react-query';
@@ -14,6 +15,7 @@ import { BiLogOutCircle } from 'react-icons/bi';
 import { User } from 'lucide-react'
 import { MdDashboard } from 'react-icons/md';
 import useAxiosSecure from '../Hooks/useAxiosSecure';
+import ThemeToggle from './ThemeToggle';
 
 const NavBar = () => {
   const { user, logOut } = useAuth();
@@ -38,17 +40,30 @@ const NavBar = () => {
   });
 
   const handelLogout = () => {
-    logOut()
-      .then(() => {
-        toast.success('Logout successfully.');
-      })
-      .catch((error) => {
-        console.log(error.massage);
-        toast.error(error.code);
-      })
+    Swal.fire({
+      title: "Logging Out?",
+      text: "Are you sure you want to end your session?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#08cb00", 
+      cancelButtonColor: "#ef4444",
+      confirmButtonText: "Yes, Logout",
+      background: "#020d00", 
+      color: "#ffffff"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        logOut()
+          .then(() => {
+            toast.success('Logout successfully.');
+          })
+          .catch((error) => {
+            console.log(error.massage);
+            toast.error(error.code);
+          });
+      }
+    });
   }
 
-  // --- UPDATED NAVLINKS WITH ICONS ---
   const navLinks = [
     { name: "Home", path: "/", icon: HiOutlineHome },
     { name: "All Issues", path: "/all-issues", icon: HiOutlineClipboardDocumentList },
@@ -62,7 +77,6 @@ const NavBar = () => {
     <div className='sticky top-0 z-[999] overflow-x-clip bg-base-200/30 backdrop-blur-lg border-b border-white/10 shadow-sm'>
       <div className="navbar max-w-7xl mx-auto px-4 sm:px-5">
         
-        {/* --- NAVBAR START (MOBILE) --- */}
         <div className="navbar-start">
           <div className="lg:hidden">
             <button 
@@ -121,7 +135,6 @@ const NavBar = () => {
           <div className="ml-2 lg:ml-0"><Logo /></div>
         </div>
 
-        {/* --- NAVBAR CENTER (DESKTOP) --- */}
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal p-0 gap-1 bg-base-100/40 backdrop-blur-md rounded-full px-2 relative border border-white/5">
              {navLinks.map((link) => {
@@ -153,9 +166,7 @@ const NavBar = () => {
                            animate={{ opacity: [0.5, 0.8, 0.5], scaleX: [0.95, 1.05, 0.95] }}
                            transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
                          />
-                         
                          <div className="absolute -top-[1px] left-0 right-0 h-[3px] bg-gradient-to-r from-transparent via-[#f7e479] to-transparent blur-[2px]" />
-                         
                          <div className="absolute top-0 left-[10%] right-[10%] h-[1px] bg-gradient-to-r from-transparent via-yellow-100 to-transparent" />
                        </motion.div>
                      )}
@@ -166,10 +177,9 @@ const NavBar = () => {
           </ul>
         </div>
 
-        {/* --- NAVBAR END (AVATAR) --- */}
         <div className="navbar-end">
           {user ? (
-            <div className='flex justify-center gap-2 items-center'>
+            <div className='flex justify-center gap-2 items-center  cursor-pointer'>
               <div className="dropdown dropdown-end">
                 <div tabIndex={0} role="button" className="relative tooltip tooltip-bottom z-[50]" data-tip={user?.displayName || 'user'}>
                   <div className="relative w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center">
@@ -226,9 +236,12 @@ const NavBar = () => {
                       <span className="badge badge-sm bg-base-300">New</span>
                     </MyLink>
                   </li>
-                  {/* <li>
+                  <li>
                     <MyLink to={'/dashboard'}> <MdDashboard className="inline-block w-4 h-4 mr-2" /> Dashboard </MyLink>
-                  </li> */}
+                  </li>
+                  <li>
+                    <ThemeToggle/>
+                  </li>
                   <li>
                     <button onClick={handelLogout} className="flex justify-center items-center bg-error/10 text-error hover:bg-error hover:text-white btn btn-sm btn-outline border-none transition-colors cursor-pointer w-full mt-2"><BiLogOutCircle /> LogOut</button>
                   </li>
@@ -236,11 +249,15 @@ const NavBar = () => {
               </div>
             </div>
           ) : (
+            
             <div className="dropdown dropdown-end">
-              <div tabIndex={0} className="tooltip tooltip-bottom" data-tip="Account">
+ <div tabIndex={0} className="tooltip tooltip-bottom" data-tip="Account">
                 <button className="btn btn-circle btn-ghost text-primary"> <FaUserCircle size={24} /> </button>
               </div>
               <ul tabIndex={0} className="dropdown-content menu p-2 shadow-xl bg-base-100/70 backdrop-blur-xl rounded-box w-52 space-y-2 z-[100] border border-white/10 mt-3">
+                <li>
+                  <ThemeToggle/>
+                </li>
                 <li>
                   <MyLink to="/login" className="btn btn-sm btn-ghost justify-start gap-2 font-normal"> <IoMdLogIn size={18} /> Login </MyLink>
                 </li>

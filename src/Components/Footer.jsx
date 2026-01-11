@@ -1,92 +1,97 @@
+import React from "react";
+import { Link } from "react-router"; // Ensure this is imported
 import { FaLinkedin, FaFacebook } from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6";
-import { Github, Heart } from "lucide-react";
+import { FaXTwitter, FaGithub } from "react-icons/fa6";
+import { Heart } from "lucide-react";
 import Logo from "./Logo";
 
 export default function Footer() {
     return (
-        <footer className="w-full shadow  text-neutral px-6 py-10 mt-10 bg-base-300 rounded-t-2xl">
+        <footer className="relative w-full overflow-hidden bg-white/[0.02] backdrop-blur-[60px] border-t border-white/10 pt-16 pb-10 px-6 rounded-t-4xl">
+            
+            {/* Background Decorative Glow */}
+            <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#08cb00]/10 rounded-full blur-[150px] -z-10" />
+
             <div className="max-w-7xl mx-auto">
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8">
 
-                <div className="flex flex-col md:flex-row justify-between gap-10">
-
-                    {/* Left Section */}
-                    <div className="space-y-6 w-full md:w-1/2">
-                        <h1 className="text-2xl font-semibold flex items-center gap-2">
+                    {/* Column 1: Branding & Info */}
+                    <div className="md:col-span-5 space-y-8">
+                        <Link to="/" className="flex items-center gap-2 w-fit">
                             <Logo />
-                        </h1>
+                        </Link>
 
-                        <p className="text-sm text-base-content/70 max-w-md">
-                            Civic Alert is a public infrastructure issue reporting platform that empowers
-                            citizens to report, track, and resolve city problems transparently.
+                        <p className="text-base text-white/40 max-w-sm leading-relaxed font-light">
+                            Civic Alert is a high-performance infrastructure reporting platform. 
+                            Empowering citizens to report, track, and resolve city problems with 
+                            total transparency and real-time data.
                         </p>
 
-                        <ul className="flex flex-wrap gap-6 text-sm">
-                            <li className="cursor-pointer hover:underline">About Civic Alert</li>
-                            <li className="cursor-pointer hover:underline">How It Works</li>
-                            <li className="cursor-pointer hover:underline">All Issues</li>
-                            <li className="cursor-pointer hover:underline">Report an Issue</li>
-                            <li className="cursor-pointer hover:underline">Dashboard</li>
-                        </ul>
-
-                        <div className="space-y-2 text-sm">
-                            <p className="font-semibold">Contact & Support</p>
-                            <p>Email: support@civicalert.com</p>
-                            <p>Phone: +880-1777-000000</p>
-                            <p>
-                                Address: City Service Office, Dhaka, Bangladesh
-                            </p>
+                        <div className="space-y-3 text-sm border-l-2 border-[#08cb00]/20 pl-6 py-1">
+                            <p className="text-white/20 font-black uppercase tracking-tighter text-[10px]">Direct Support</p>
+                            <p className="text-white/60">support@civicalert.com</p>
+                            <p className="text-white/60 font-mono tracking-tighter">+880-1777-000000</p>
                         </div>
                     </div>
 
-                    {/* Right Section */}
-                    <div className="w-full md:w-1/2 space-y-6">
-                        <div className="flex gap-4 justify-start md:justify-end text-xl">
-                            <FaLinkedin className="cursor-pointer hover:text-blue-600" />
-                            <FaXTwitter className="cursor-pointer hover:text-sky-500" />
-                            <FaFacebook className="cursor-pointer hover:text-blue-600" />
+                    {/* Column 2: Quick Links */}
+                    <div className="md:col-span-3 space-y-6">
+                        <h6 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#08cb00] opacity-80">
+                            Quick Links
+                        </h6>
+                        <ul className="flex flex-col space-y-4 text-xs font-bold uppercase tracking-widest text-white/40">
+                            <Link to="/" className="cursor-pointer hover:text-[#08cb00] hover:translate-x-2 transition-all duration-300">Home</Link>
+                            <Link to="/all-issues" className="cursor-pointer hover:text-[#08cb00] hover:translate-x-2 transition-all duration-300">All Issues</Link>
+                            <Link to="/dashboard/report-issue" className="cursor-pointer hover:text-[#08cb00] hover:translate-x-2 transition-all duration-300">Report Issue</Link>
+                            <Link to="/dashboard" className="cursor-pointer hover:text-[#08cb00] hover:translate-x-2 transition-all duration-300">Dashboard</Link>
+                        </ul>
+                    </div>
+
+                    {/* Column 3: Resources & Socials */}
+                    <div className="md:col-span-4 space-y-8">
+                        <div className="space-y-6">
+                            <h6 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#08cb00] opacity-80">
+                                Resources
+                            </h6>
+                            <ul className="flex flex-col space-y-4 text-xs font-bold uppercase tracking-widest text-white/40">
+                                <Link to="/about-us" className="cursor-pointer hover:text-[#08cb00] hover:translate-x-2 transition-all duration-300">About Civic Alert</Link>
+                                <Link to="/how-it-works" className="cursor-pointer hover:text-[#08cb00] hover:translate-x-2 transition-all duration-300">How It Works</Link>
+                                <Link to="/privacy-policy" className="cursor-pointer hover:text-[#08cb00] hover:translate-x-2 transition-all duration-300">Privacy Policy</Link>
+                                <Link to="/terms-conditions" className="cursor-pointer hover:text-[#08cb00] hover:translate-x-2 transition-all duration-300">Terms & Conditions</Link>
+                            </ul>
                         </div>
 
-                        <h6 className="footer-title">Stay Informed</h6>
-
-                        <div className="bg-base-200 p-6 rounded-xl flex flex-col gap-4 md:flex-row md:items-center">
-                            <input
-                                type="email"
-                                placeholder="Enter your email"
-                                className="input input-bordered w-full bg-base-100 text-neutral"
-                            />
-                            <button className="btn btn-primary rounded-lg w-full md:w-auto">
-                                Get City Updates
-                            </button>
+                        <div className="flex gap-5 text-2xl text-white/20">
+                            <a href="https://linkedin.com" target="_blank" rel="noreferrer">
+                                <FaLinkedin className="cursor-pointer hover:text-[#08cb00] hover:drop-shadow-[0_0_8px_#08cb00] transition-all duration-300" />
+                            </a>
+                            <a href="https://twitter.com" target="_blank" rel="noreferrer">
+                                <FaXTwitter className="cursor-pointer hover:text-[#08cb00] hover:drop-shadow-[0_0_8px_#08cb00] transition-all duration-300" />
+                            </a>
+                            <a href="https://facebook.com" target="_blank" rel="noreferrer">
+                                <FaFacebook className="cursor-pointer hover:text-[#08cb00] hover:drop-shadow-[0_0_8px_#08cb00] transition-all duration-300" />
+                            </a>
                         </div>
-
-                        <p className="text-xs text-base-content/60">
-                            Get updates on resolved issues, city improvements, and platform features.
-                        </p>
                     </div>
                 </div>
 
-                <hr className="border-base-300 my-8" />
+                {/* Divider Line */}
+                <div className="h-px w-full bg-gradient-to-r from-transparent via-white/5 to-transparent my-12" />
 
                 {/* Bottom Section */}
-                <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-neutral">
-                    <p>
-                        © 2025 Civic Alert. Building better cities together.
-                    </p>
+                <div className="flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-[0.2em] text-white/20">
+                    <p>© 2025 Civic Alert. Building better cities together.</p>
 
-                    <div className="flex flex-wrap items-center gap-4">
-                        <p className="cursor-pointer hover:underline">Privacy Policy</p>
-                        <p className="cursor-pointer hover:underline">Terms & Conditions</p>
-
+                    <div className="flex flex-wrap justify-center items-center gap-6">
                         <a
                             href="https://github.com/thesachindey"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center gap-1 cursor-pointer hover:underline"
+                            className="flex items-center gap-2 group text-white/40 hover:text-white transition-colors"
                         >
-                            Developed by Sachin
-                            <Heart size={14} className="text-red-500" />
-                            <Github size={14} />
+                            <span>Developed by Sachin</span>
+                            <Heart size={12} className="text-red-500 group-hover:scale-125 transition-transform" />
+                            <FaGithub size={14} />
                         </a>
                     </div>
                 </div>
