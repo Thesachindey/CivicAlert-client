@@ -3,6 +3,8 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import Swal from 'sweetalert2';
 import toast from 'react-hot-toast';
 import { FaUsers, FaBan, FaUnlock, FaCrown, FaSearch, FaUserTag } from 'react-icons/fa';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ShieldAlert, UserCheck, Search, Users } from 'lucide-react';
 import useAxiosSecure from '../../../Hooks/useAxiosSecure';
 import LoadingPage from '../../LoadingPage/LoadingPage';
 
@@ -35,20 +37,22 @@ const ManageUsers = () => {
     const handleBlockToggle = (user) => {
         const isBlocking = !user.isBlocked; 
         const actionText = isBlocking ? "Block" : "Unblock";
-        const btnColor = isBlocking ? "#d33" : "#36d399"; 
+        const themeColor = isBlocking ? "#ef4444" : "#08cb00"; 
 
         const userName = user.displayName || user.name || "this user";
 
         Swal.fire({
             title: `${actionText} ${userName}?`,
             text: isBlocking 
-                ? "They will lose access to their account immediately." 
-                : "They will regain access to their account.",
-            icon: 'warning',
+                ? "Access to the dashboard will be restricted immediately." 
+                : "The user will regain full platform access.",
+            icon: isBlocking ? 'error' : 'success',
             showCancelButton: true,
-            confirmButtonColor: btnColor,
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: `Yes, ${actionText} them!`
+            confirmButtonColor: themeColor,
+            cancelButtonColor: '#3b82f6',
+            confirmButtonText: `Yes, ${actionText}`,
+            background: 'var(--bg-base-200)',
+            color: 'var(--text-base-content)'
         }).then((result) => {
             if (result.isConfirmed) {
                 toggleBlockMutation.mutate({ 
@@ -63,129 +67,149 @@ const ManageUsers = () => {
         const name = (user.displayName || user.name || "").toLowerCase();
         const email = (user.email || "").toLowerCase();
         const term = searchTerm.toLowerCase();
-
         return name.includes(term) || email.includes(term);
     });
 
     if (isLoading) return <LoadingPage />;
 
     return (
-       <div className="p-4 md:p-8 bg-base-100 min-h-screen">
-    <title>Manage Citizens</title>
-    
-    <div className="flex flex-col md:flex-row justify-between items-end mb-6 gap-4">
-        
-        {/* Title & Stats */}
-        <div className="w-full md:w-auto">
-            <h2 className="text-2xl md:text-3xl font-bold">Manage <span className="text-primary">Citizens</span></h2>
-            <p className="opacity-60 mt-1 flex items-center gap-2 text-sm md:text-base">
-                <FaUsers /> Total Citizens: {users.length}
-            </p>
-        </div>
-        <div className="join w-full md:w-auto">
-            <div className="join-item flex items-center justify-center bg-base-200 px-3">
-                <FaSearch className="opacity-50"/>
-            </div>
-            <input 
-                type="text" 
-                placeholder="Search by name or email..." 
-                className="input input-bordered join-item w-full md:w-64"
-                onChange={(e) => setSearchTerm(e.target.value)}
-            />
-        </div>
-    </div>
-    <div className="overflow-x-auto shadow-xl rounded-2xl border border-base-200 bg-white">
-        <table className="table w-full">
+        <div className="p-4 md:p-8 bg-base-100 min-h-screen transition-colors duration-500 relative overflow-hidden">
+            <title>Manage Citizens | Civic Alert</title>
             
-            {/* Table Head */}
-            <thead className="bg-base-200 uppercase text-sm font-bold text-base-content/70">
-                <tr>
-                    <th>User Profile</th>
-                    <th>Membership</th>
-                    <th>Status</th>
-                    <th className="text-center">Action</th>
-                </tr>
-            </thead>
-            
-            {/* Table Body */}
-            <tbody>
-                {filteredUsers.map((user) => (
-                    <tr key={user._id} className="hover:bg-base-50 transition-colors whitespace-nowrap">
-                        
-                        <td>
-                            <div className="flex items-center gap-4">
-                                <div className="avatar">
-                                    <div className="mask mask-squircle w-10 h-10 md:w-12 md:h-12 bg-base-300">
-                                        <img 
-                                            src={user.photoURL || "https://i.ibb.co/Zm9J5M4/user-placeholder.png"} 
-                                            alt={user.displayName} 
-                                            className="object-cover"
-                                        />
-                                    </div>
-                                </div>
-                                <div>
-                                    <div className="font-bold text-sm md:text-base">
-                                        {user.displayName || user.name || "Unknown Name"}
-                                    </div>
-                                    <div className="text-xs md:text-sm opacity-50">
-                                        {user.email || "No Email"}
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
-                        
-                        <td>
-                            {user.isPremium ? (
-                                <div className="badge badge-warning gap-1 font-bold shadow-sm p-3 text-amber-900">
-                                    <FaCrown /> Premium
-                                </div>
-                            ) : (
-                                <div className="badge badge-ghost gap-1 p-3">
-                                    Free
-                                </div>
-                            )}
-                        </td>
-                        <td>
-                            {user.isBlocked ? (
-                                <span className="badge badge-error text-white gap-1 p-3 font-semibold">
-                                    <FaBan size={12}/> Blocked
-                                </span>
-                            ) : (
-                                <span className="badge badge-success text-white gap-1 p-3 font-semibold">
-                                    <FaUserTag size={12}/> Active
-                                </span>
-                            )}
-                        </td>
-                        <td className="text-center">
-                            <button 
-                                onClick={() => handleBlockToggle(user)}
-                                className={`btn btn-sm px-4 shadow-sm border-none text-white transition-all duration-200 w-24 md:w-28
-                                    ${user.isBlocked 
-                                        ? 'bg-success hover:bg-green-600' 
-                                        : 'bg-error hover:bg-red-600'
-                                    }`}
-                            >
-                                {user.isBlocked ? (
-                                    <> <FaUnlock /> Unblock </>
-                                ) : (
-                                    <> <FaBan /> Block </>
-                                )}
-                            </button>
-                        </td>
-                    </tr>
-                ))}
-            </tbody>
-        </table>
-        
-        {filteredUsers.length === 0 && (
-            <div className="flex flex-col items-center justify-center py-12 opacity-50">
-                <FaUsers className="text-5xl mb-3" />
-                <h3 className="text-lg font-bold">No users found</h3>
-                <p>Try adjusting your search criteria.</p>
+            {/* Background Decorative Glow */}
+            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[150px] -z-10" />
+
+            {/* Header & Search Bar */}
+            <div className="flex flex-col xl:flex-row justify-between items-start xl:items-end mb-10 gap-6">
+                <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
+                    <h2 className="text-3xl md:text-4xl font-black text-base-content tracking-tight">
+                        Citizen <span className="text-primary drop-shadow-[0_0_10px_rgba(8,203,0,0.3)]">Directory</span>
+                    </h2>
+                    <p className="text-base-content/50 mt-1 uppercase tracking-widest text-[10px] font-bold flex items-center gap-2">
+                        <Users size={12} className="text-primary" /> Total Registered: {users.length}
+                    </p>
+                </motion.div>
+
+                {/* Glass Search Input */}
+                <motion.div 
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="relative w-full md:w-80 group"
+                >
+                    <div className="absolute left-4 top-1/2 -translate-y-1/2 text-primary opacity-50 group-focus-within:opacity-100 transition-opacity">
+                        <Search size={18} />
+                    </div>
+                    <input 
+                        type="text" 
+                        placeholder="Search by name or email..." 
+                        className="input input-bordered w-full pl-12 rounded-2xl bg-base-200/50 backdrop-blur-md border-base-300 dark:border-white/5 focus:border-primary transition-all font-medium text-sm"
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                </motion.div>
             </div>
-        )}
-    </div>
-</div>
+
+            {/* Submissions Table - Ultra Glass */}
+            <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="overflow-x-auto rounded-[2.5rem] bg-base-200/40 dark:bg-base-200/30 backdrop-blur-xl border-2 border-base-300 dark:border-white/10 shadow-2xl"
+            >
+                <table className="table w-full">
+                    <thead className="bg-base-content/5 text-base-content/60 uppercase text-[10px] font-black tracking-[0.2em]">
+                        <tr>
+                            <th className="py-6 pl-8">Citizen Identity</th>
+                            <th>Membership Level</th>
+                            <th>Account Status</th>
+                            <th className="text-center pr-8">Administrative Action</th>
+                        </tr>
+                    </thead>
+                    <tbody className="text-base-content/80">
+                        <AnimatePresence>
+                            {filteredUsers.map((user, idx) => (
+                                <motion.tr 
+                                    key={user._id}
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: idx * 0.05 }}
+                                    className="hover:bg-primary/5 transition-colors border-b border-base-content/5 group"
+                                >
+                                    <td className="pl-8 py-5">
+                                        <div className="flex items-center gap-4">
+                                            <div className="avatar">
+                                                <div className="mask mask-squircle w-14 h-14 ring-2 ring-primary/20 group-hover:ring-primary/50 transition-all">
+                                                    <img 
+                                                        src={user.photoURL || "https://i.ibb.co/Zm9J5M4/user-placeholder.png"} 
+                                                        alt="User" 
+                                                        className="object-cover" 
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div className="font-black text-sm text-base-content">{user.displayName || user.name || "Unknown"}</div>
+                                                <div className="text-[10px] font-mono opacity-40 lowercase mt-1">{user.email}</div>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        {user.isPremium ? (
+                                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-amber-400/10 text-amber-500 border border-amber-400/20 font-black text-[10px] tracking-widest shadow-[0_0_15px_rgba(251,191,36,0.1)]">
+                                                <FaCrown /> ELITE PREMIUM
+                                            </div>
+                                        ) : (
+                                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-base-content/5 text-base-content/30 border border-base-content/5 font-black text-[10px] tracking-widest uppercase">
+                                                Standard Tier
+                                            </div>
+                                        )}
+                                    </td>
+
+                                    <td>
+                                        {user.isBlocked ? (
+                                            <div className="badge badge-error badge-outline gap-2 font-black text-[9px] tracking-[0.2em] p-3 uppercase">
+                                                <ShieldAlert size={10} /> Suspended
+                                            </div>
+                                        ) : (
+                                            <div className="badge badge-success badge-outline gap-2 font-black text-[9px] tracking-[0.2em] p-3 uppercase">
+                                                <UserCheck size={10} /> Authorized
+                                            </div>
+                                        )}
+                                    </td>
+
+                                    <td className="pr-8 text-center">
+                                        <button 
+                                            onClick={() => handleBlockToggle(user)}
+                                            className={`btn btn-sm rounded-xl font-black tracking-widest text-[10px] px-6 h-10 border-2 transition-all group
+                                                ${user.isBlocked 
+                                                    ? 'btn-success btn-outline hover:bg-success hover:text-white' 
+                                                    : 'btn-error btn-outline hover:bg-error hover:text-white'
+                                                }`}
+                                        >
+                                            {user.isBlocked ? (
+                                                <><FaUnlock className="group-hover:scale-110 transition-transform" /> RESTORE ACCESS</>
+                                            ) : (
+                                                <><FaBan className="group-hover:rotate-12 transition-transform" /> REVOKE ACCESS</>
+                                            )}
+                                        </button>
+                                    </td>
+                                </motion.tr>
+                            ))}
+                        </AnimatePresence>
+                    </tbody>
+                </table>
+
+                {filteredUsers.length === 0 && (
+                    <div className="text-center py-24 group">
+                        <div className="text-6xl mb-6 grayscale opacity-20 group-hover:opacity-40 transition-opacity">
+                            <Users size={64} className="mx-auto" />
+                        </div>
+                        <h3 className="text-2xl font-black text-base-content">No Citizens Found</h3>
+                        <p className="text-base-content/40 mt-2 max-w-xs mx-auto text-sm italic">
+                            " {searchTerm} " matched zero results in the directory.
+                        </p>
+                    </div>
+                )}
+            </motion.div>
+        </div>
     );
 };
 

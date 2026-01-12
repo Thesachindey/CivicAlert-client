@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router';
 import { FaUserPlus, FaCrown, FaUserCircle, FaBars, FaTimes, FaShieldAlt } from 'react-icons/fa';
 // --- RESTORED LINE ICONS ---
-import { HiOutlineHome, HiOutlineClipboardDocumentList, HiOutlineUserGroup, HiOutlineInformationCircle, HiOutlineLockClosed, HiOutlineLockOpen } from "react-icons/hi2";
+import { HiOutlineHome, HiOutlineClipboardDocumentList, HiOutlineUserGroup, HiOutlineInformationCircle, HiOutlineLockClosed, HiOutlineLockOpen, HiOutlineShieldCheck } from "react-icons/hi2";
 import toast from 'react-hot-toast';
 import Swal from 'sweetalert2'; 
 import Logo from './Logo';
@@ -67,9 +67,9 @@ const NavBar = () => {
   const navLinks = [
     { name: "Home", path: "/", icon: HiOutlineHome },
     { name: "All Issues", path: "/all-issues", icon: HiOutlineClipboardDocumentList },
-    ...(dbUser ? [{ name: "My Issues", path: "/dashboard/my-issues", icon: HiOutlineUserGroup },{ name: "Dashboard", path: "/dashboard", icon: MdDashboard }] : []),
+    ...(dbUser ? [{ name: "Dashboard", path: "/dashboard", icon: MdDashboard }] : []),
     { name: "About Us", path: "/about-us", icon: HiOutlineInformationCircle },
-      // { name: "Terms & Conditions", path: "/terms-conditions", icon: HiOutlineLockOpen },
+    { name: "Terms", path: "/terms-conditions", icon: HiOutlineShieldCheck }
   ];
 
   const glowColor = "#f7e479"; 
@@ -138,49 +138,49 @@ const NavBar = () => {
 
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal p-0 gap-1 bg-base-100/40 backdrop-blur-md rounded-full px-2 relative border border-white/5">
-             {navLinks.map((link) => {
+              {navLinks.map((link) => {
                 const isActive = location.pathname === link.path;
                 const isHovered = hoveredPath === link.path;
                 const Icon = link.icon;
                 return (
                  <li 
-                   key={link.path} 
-                   className="relative"
-                   onMouseEnter={() => setHoveredPath(link.path)}
-                   onMouseLeave={() => setHoveredPath(location.pathname)}
-                 >
-                   <MyLink 
-                     to={link.path}
-                     className={`flex items-center gap-2 px-5 py-2 transition-colors relative z-10 hover:bg-transparent ${isActive || isHovered ? `text-[${glowColor}]` : "text-base-content/70"}`}
-                   >
-                     <Icon size={18} />
-                     {link.name}
-                     {isHovered && (
-                       <motion.div
-                         layoutId="desktop-glider"
-                         className="absolute bottom-0 left-0 right-0 h-[2px] z-0"
-                         initial={false}
-                         transition={{ type: "spring", stiffness: 350, damping: 35 }}
-                       >
-                         <motion.div
-                           className="absolute -top-[10px] left-[-10%] right-[-10%] h-[20px] bg-[#f7e479]/30 blur-[15px] rounded-full"
-                           animate={{ opacity: [0.5, 0.8, 0.5], scaleX: [0.95, 1.05, 0.95] }}
-                           transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-                         />
-                         <div className="absolute -top-[1px] left-0 right-0 h-[3px] bg-gradient-to-r from-transparent via-[#f7e479] to-transparent blur-[2px]" />
-                         <div className="absolute top-0 left-[10%] right-[10%] h-[1px] bg-gradient-to-r from-transparent via-yellow-100 to-transparent" />
-                       </motion.div>
-                     )}
-                   </MyLink>
-                 </li>
+                    key={link.path} 
+                    className="relative"
+                    onMouseEnter={() => setHoveredPath(link.path)}
+                    onMouseLeave={() => setHoveredPath(location.pathname)}
+                  >
+                    <MyLink 
+                      to={link.path}
+                      className={`flex items-center gap-2 px-5 py-2 transition-colors relative z-10 hover:bg-transparent ${isActive || isHovered ? `text-[${glowColor}]` : "text-base-content/70"}`}
+                    >
+                      <Icon size={18} />
+                      {link.name}
+                      {isHovered && (
+                        <motion.div
+                          layoutId="desktop-glider"
+                          className="absolute bottom-0 left-0 right-0 h-[2px] z-0"
+                          initial={false}
+                          transition={{ type: "spring", stiffness: 350, damping: 35 }}
+                        >
+                          <motion.div
+                            className="absolute -top-[10px] left-[-10%] right-[-10%] h-[20px] bg-[#f7e479]/30 blur-[15px] rounded-full"
+                            animate={{ opacity: [0.5, 0.8, 0.5], scaleX: [0.95, 1.05, 0.95] }}
+                            transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+                          />
+                          <div className="absolute -top-[1px] left-0 right-0 h-[3px] bg-gradient-to-r from-transparent via-[#f7e479] to-transparent blur-[2px]" />
+                          <div className="absolute top-0 left-[10%] right-[10%] h-[1px] bg-gradient-to-r from-transparent via-yellow-100 to-transparent" />
+                        </motion.div>
+                      )}
+                    </MyLink>
+                  </li>
                 )
-             })}
+              })}
           </ul>
         </div>
 
         <div className="navbar-end">
           {user ? (
-            <div className='flex justify-center gap-2 items-center  cursor-pointer'>
+            <div className='flex justify-center gap-2 items-center cursor-pointer'>
               <div className="dropdown dropdown-end">
                 <div tabIndex={0} role="button" className="relative tooltip tooltip-bottom z-[50]" data-tip={user?.displayName || 'user'}>
                   <div className="relative w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center">
@@ -208,6 +208,18 @@ const NavBar = () => {
                       </>
                     )}
 
+                    {/* --- STAFF ANIMATION ADDED HERE --- */}
+                    {dbUser?.role === 'staff' && (
+                      <>
+                        <div className="absolute inset-[-2px] rounded-full border-2 border-emerald-500 shadow-[0_0_10px_#10b981]"></div>
+                        <motion.div
+                          className="absolute inset-[-3px] rounded-full bg-emerald-400/20"
+                          animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.6, 0.3] }}
+                          transition={{ repeat: Infinity, duration: 2.5, ease: "easeInOut" }}
+                        />
+                      </>
+                    )}
+
                     <div className="relative z-10 w-full h-full rounded-full overflow-hidden border-[3px] border-base-100">
                       <img
                         alt={user.name}
@@ -227,6 +239,13 @@ const NavBar = () => {
                           <FaShieldAlt size={10} />
                         </div>
                     )}
+
+                    {/* STAFF ICON BADGE */}
+                    {dbUser?.role === 'staff' && (
+                        <div className="absolute -top-1 -right-1 z-20 bg-emerald-600 text-white p-1 rounded-full shadow-lg border-2 border-base-100">
+                          <HiOutlineLockClosed size={10} />
+                        </div>
+                    )}
                   </div>
                 </div>
 
@@ -237,9 +256,6 @@ const NavBar = () => {
                       <span className="badge badge-sm bg-base-300">New</span>
                     </MyLink>
                   </li>
-                  {/* <li>
-                    <MyLink to={'/dashboard'}> <MdDashboard className="inline-block w-4 h-4 mr-2" /> Dashboard </MyLink>
-                  </li> */}
                   <li>
                     <ThemeToggle/>
                   </li>
@@ -250,9 +266,8 @@ const NavBar = () => {
               </div>
             </div>
           ) : (
-            
             <div className="dropdown dropdown-end">
- <div tabIndex={0} className="tooltip tooltip-bottom" data-tip="Account">
+              <div tabIndex={0} className="tooltip tooltip-bottom" data-tip="Account">
                 <button className="btn btn-circle btn-ghost text-primary"> <FaUserCircle size={24} /> </button>
               </div>
               <ul tabIndex={0} className="dropdown-content menu p-2 shadow-xl bg-base-100/70 backdrop-blur-xl rounded-box w-52 space-y-2 z-[100] border border-white/10 mt-3">

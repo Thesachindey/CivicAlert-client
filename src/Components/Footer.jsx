@@ -27,9 +27,9 @@ export default function Footer() {
 
           {/* Branding */}
           <div className="md:col-span-5 space-y-8">
-            <Link to="/" className="flex items-center gap-2 w-fit">
+            <div  className="flex items-center gap-2 w-fit">
               <Logo />
-            </Link>
+            </div>
 
             <p className="text-sm text-base-content/60 max-w-sm leading-relaxed font-light">
               Civic Alert is a high-performance infrastructure reporting platform.

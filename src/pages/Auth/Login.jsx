@@ -1,9 +1,9 @@
 import React, { useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import { Link, useLocation, useNavigate } from 'react-router'; // Fixed import to 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router'; 
 import { motion } from 'framer-motion';
-import { FaEnvelope, FaLock, FaSpinner } from 'react-icons/fa';
+import { FaEnvelope, FaLock, FaSpinner, FaUserShield, FaUserTie, FaUser } from 'react-icons/fa';
 
 import SocialLogin from './SocialLogin';
 import useAuth from '../../Hooks/useAuth';
@@ -14,6 +14,7 @@ const Login = () => {
         register,
         handleSubmit,
         getValues,
+        setValue, // Added to auto-fill form state
         formState: { errors }
     } = useForm();
 
@@ -40,13 +41,25 @@ const Login = () => {
         }
     };
 
+    // --- DEMO LOGIN HANDLER ---
+    const handleDemoLogin = (role) => {
+        const credentials = {
+            admin: { email: 'admin@gmail.com', pass: 'CivicAlert@2' },
+            staff: { email: 'staff1@gmail.com', pass: 'CivicAlert@2' },
+            user: { email: 'user2@gmail.com', pass: 'CivicAlert@2' }
+        };
+        
+        const target = credentials[role];
+        setValue('email', target.email);
+        setValue('password', target.pass);
+        toast.success(`${role.toUpperCase()} credentials loaded!`);
+    };
 
     const handleForgetPassword = async () => {
         const email = emailRef.current.value;
         if (!email) {
             return toast.error("Please provide an email address.");
         }
-        //validation
         if (!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(email)) {
             return toast.error("Please provide a valid email address.");
         }
@@ -74,16 +87,14 @@ const Login = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8 }}
-            className="min-h-screen  flex justify-center items-center bg-base-100 relative"
+            className="min-h-screen flex justify-center items-center bg-base-100 relative py-10 px-4"
         >
             <title>Login</title>
-            {/* Glow Effects */}
             <div className="absolute top-10 left-10 w-72 h-72 bg-primary/30 rounded-full blur-3xl" />
             <div className="absolute bottom-10 right-10 w-72 h-72 bg-secondary/30 rounded-full blur-3xl" />
 
-            {/* Card */}
             <motion.div
-                className="relative z-10 bg-base-100/90 backdrop-blur-xl rounded-2xl shadow-2xl p-8 w-full max-w-md"
+                className="relative z-10 bg-base-100/90 backdrop-blur-xl rounded-2xl shadow-2xl p-8 w-full max-w-md border border-primary"
             >
                 <div className="text-center flex justify-center items-center flex-col gap-2 mb-8">
                     <h3 className="text-3xl font-bold">
@@ -93,9 +104,32 @@ const Login = () => {
                     <p className="opacity-60 text-sm">Sign in to access your account</p>
                 </div>
 
-                <form onSubmit={handleSubmit(handleLogin)}>
+                {/* --- DEMO LOGIN BUTTONS --- */}
+                <div className="flex flex-wrap justify-center gap-2 mb-8">
+                    <button 
+                        type="button"
+                        onClick={() => handleDemoLogin('admin')}
+                        className="btn btn-xs btn-outline btn-error rounded-full gap-1 font-bold"
+                    >
+                        <FaUserShield size={10} /> Admin
+                    </button>
+                    <button 
+                        type="button"
+                        onClick={() => handleDemoLogin('staff')}
+                        className="btn btn-xs btn-outline btn-info rounded-full gap-1 font-bold"
+                    >
+                        <FaUserTie size={10} /> Staff
+                    </button>
+                    <button 
+                        type="button"
+                        onClick={() => handleDemoLogin('user')}
+                        className="btn btn-xs btn-outline btn-primary rounded-full gap-1 font-bold"
+                    >
+                        <FaUser size={10} /> User
+                    </button>
+                </div>
 
-                    {/* Email Input */}
+                <form onSubmit={handleSubmit(handleLogin)}>
                     <div className="form-control mb-4">
                         <label className="label"><span className="label-text">Email</span></label>
                         <div className="relative">
@@ -115,7 +149,6 @@ const Login = () => {
                         {errors.email && <span className="text-error text-xs mt-1">{errors.email.message}</span>}
                     </div>
 
-                    {/* Password Input */}
                     <div className="form-control mb-6">
                         <label className="label"><span className="label-text">Password</span></label>
                         <div className="relative">
@@ -132,17 +165,15 @@ const Login = () => {
                                 <span className="text-error text-xs">{errors.password.message}</span>
                             ) : <span />}
 
-                            {/* Forgot Password Trigger */}
                             <span
                                 onClick={openForgetPasswordModal}
-                                className="label-text-alt link link-hover cursor-pointer text-primary"
+                                className="label-text-alt link link-hover cursor-pointer text-primary font-semibold"
                             >
                                 Forgot password?
                             </span>
                         </label>
                     </div>
 
-                    {/* Submit Button */}
                     <motion.button
                         disabled={loading}
                         whileHover={!loading ? { scale: 1.02 } : {}}
@@ -158,7 +189,7 @@ const Login = () => {
                         )}
                     </motion.button>
 
-                    <div className="divider my-6">OR</div>
+                    <div className="divider my-6 text-xs opacity-50 font-bold tracking-widest uppercase">OR</div>
                     <SocialLogin />
 
                     <p className="text-center mt-6 text-sm">
@@ -174,7 +205,6 @@ const Login = () => {
                 </form>
             </motion.div>
 
-            {/* modal for forgot pass  */}
             <dialog id="forget_pass_modal" className="modal">
                 <div className="modal-box">
                     <h3 className="font-bold text-lg mb-4">Reset Password</h3>
@@ -209,7 +239,6 @@ const Login = () => {
                     <button>close</button>
                 </form>
             </dialog>
-
         </motion.div>
     );
 };

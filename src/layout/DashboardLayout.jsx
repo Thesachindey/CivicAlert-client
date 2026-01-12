@@ -3,7 +3,7 @@ import { Link, Outlet } from 'react-router';
 import { FaUsers } from 'react-icons/fa6';
 import { RiSecurePaymentFill, RiUserSettingsLine } from "react-icons/ri";
 import { MdOutlineManageAccounts, MdOutlineManageHistory, MdReport, MdDynamicFeed, MdAssignment } from 'react-icons/md';
-import { HomeIcon, Sun, Moon } from 'lucide-react'; // Added Sun/Moon
+import { HomeIcon, Sun, Moon } from 'lucide-react'; 
 import { BiLogOutCircle } from 'react-icons/bi';
 import { motion, AnimatePresence } from 'framer-motion';
 import Swal from 'sweetalert2';
@@ -34,17 +34,21 @@ const DashboardLayout = () => {
             title: "Log out?",
             icon: "warning",
             showCancelButton: true,
-            confirmButtonColor: "#10b981",
+            confirmButtonColor: "#08cb00",
             cancelButtonColor: "#ef4444",
             confirmButtonText: "Yes, log out",
             background: 'var(--bg-base-200)',
-            color: 'var(--text-base-content)'
+            color: 'var(--text-base-content)',
+            backdrop: `rgba(0,0,0,0.5) backdrop-filter: blur(4px)`,
+            customClass: {
+                popup: "rounded-[2rem] border-2 border-primary/20 shadow-2xl",
+                title: "font-black tracking-widest text-primary",
+            }
         }).then((result) => {
             if (result.isConfirmed) logOut();
         });
     };
 
-    // Shared Theme Toggle Component for Mobile & Desktop
     const ThemeButton = () => (
         <button 
             onClick={toggleTheme}
@@ -77,8 +81,6 @@ const DashboardLayout = () => {
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-5 h-5 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                             </label>
                             <div className="flex-1 px-2 logo-font font-bold text-primary uppercase tracking-widest text-xs">Dashboard</div>
-                            
-                            {/* Theme Toggle on Mobile */}
                             <ThemeButton />
                         </div>
                     </header>
@@ -98,13 +100,13 @@ const DashboardLayout = () => {
                             <Link to="/">
                                 <Logo />
                             </Link>
-                            {/* Theme Toggle on Desktop Sidebar */}
                             <div className="hidden p-2 lg:block">
                                 <ThemeButton />
                             </div>
                         </div>
 
                         <ul className="menu p-0 space-y-2 grow text-base-content/70 font-medium">
+                            {/* CITIZEN LINKS */}
                             {role === 'citizen' && (
                                 <>
                                     <p className="text-[10px] uppercase tracking-[0.3em] text-primary font-black mb-2 mt-4 px-4 opacity-50">Citizen Portal</p>
@@ -113,6 +115,17 @@ const DashboardLayout = () => {
                                     <li><MyLink to='/dashboard/my-issues'><MdDynamicFeed size={18} /> My Issues</MyLink></li>
                                 </>
                             )}
+
+                            {/* STAFF LINKS (restored) */}
+                            {role === 'staff' && (
+                                <>
+                                    <p className="text-[10px] uppercase tracking-[0.3em] text-primary font-black mb-2 mt-4 px-4 opacity-50">Staff Portal</p>
+                                    <li><MyLink to='/dashboard/staff-home'><HomeIcon size={18} /> Staff Home</MyLink></li>
+                                    <li><MyLink to='/dashboard/assigned-issues'><MdAssignment size={18} /> Assigned Issues</MyLink></li>
+                                </>
+                            )}
+
+                            {/* ADMIN LINKS */}
                             {role === 'admin' && (
                                 <>
                                     <p className="text-[10px] uppercase tracking-[0.3em] text-primary font-black mb-2 mt-4 px-4 opacity-50">Administration</p>

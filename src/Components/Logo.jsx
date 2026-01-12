@@ -20,7 +20,6 @@ const Logo = () => {
                     size={45} 
                 />
                 
-                {/* FIXED: text-white changed to text-base-content */}
                 <h2 className='text-3xl font-extrabold -ms-9 text-base-content relative z-10 tracking-tight'>
                     CivicAlert
                 </h2>

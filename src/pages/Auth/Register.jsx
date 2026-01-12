@@ -84,7 +84,7 @@ const Register = () => {
 
             {/* Card */}
             <motion.div
-                className="relative z-10 bg-base-100/90 backdrop-blur-xl rounded-2xl shadow-2xl p-8 w-full max-w-3xl my-8"
+                className="relative z-10 bg-base-100/90 backdrop-blur-xl rounded-2xl shadow-2xl p-8 w-full max-w-3xl my-8 border border-primary"
             >
                 {/* Header */}
                 <div className="flex flex-col items-center mb-6">
