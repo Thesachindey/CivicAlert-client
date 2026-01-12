@@ -9,7 +9,7 @@ const ThemeToggle = () => {
         const newTheme = checked ? "dark" : "light";
         localStorage.setItem("theme", newTheme);
         setTheme(newTheme);
-        // window.location.reload();
+        window.location.reload();
     };
 
     useEffect(() => {
