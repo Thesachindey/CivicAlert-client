@@ -2,6 +2,7 @@
   <img src="./public/favIcon.png" width="40" />
   <span>CivicAlert</span>
 </h1>
+
 #  Public Infrastructure Issue Reporting System
 
 **CivicAlert** is a full-stack digital platform designed to bridge the gap between citizens and municipal authorities. It enables users to report real-world public infrastructure issues (like broken streetlights, potholes, and garbage overflow) and track their resolution in real-time.
