@@ -184,7 +184,7 @@ const MyProfilePage = () => {
             <div className="flex flex-col sm:flex-row gap-4 w-full">
               <Link
                 to="/auth/update-profile"
-                className="btn flex-1 btn-secondary btn-outline"
+                className="btn flex-1 btn-outline btn-primary"
               >
                 <FaUserEdit /> Edit Profile
               </Link>

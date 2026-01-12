@@ -1,22 +1,24 @@
 <!doctype html>
-<html lang="en" data-theme="dark">
-  <head>
-    <script>
-      (function() {
-        const theme = localStorage.getItem('theme') || 'dark';
-        document.documentElement.setAttribute('data-theme', theme);
-        if (theme === 'dark') document.documentElement.classList.add('dark');
-      })();
-    </script>
-    <meta charset="UTF-8"/>
-    <link href="https://api.fontshare.com/v2/css?f[]=sharpie@400&f[]=clash-grotesk@1&display=swap" rel="stylesheet">
-    <link href="https://api.fontshare.com/v2/css?f[]=chillax@400&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/svg+xml" href="/favIcon.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Civic Alert</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<html lang="en">
+
+<head>
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    })();
+  </script>
+  <meta charset="UTF-8" />
+  <link href="https://api.fontshare.com/v2/css?f[]=sharpie@400&f[]=clash-grotesk@1&display=swap" rel="stylesheet">
+  <link href="https://api.fontshare.com/v2/css?f[]=chillax@400&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="/favIcon.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Civic Alert</title>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+
 </html>

@@ -5,7 +5,8 @@ import { motion } from "framer-motion";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { FaImage, FaEdit, FaArrowLeft } from "react-icons/fa";
+import { FaImage, FaArrowLeft } from "react-icons/fa";
+import { Type, FileText, MapPin, Tag, ShieldAlert } from "lucide-react";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import useAuth from "../../../Hooks/useAuth";
 import { imageUpload } from "../../../utils/img";
@@ -23,7 +24,6 @@ const UpdateIssue = () => {
     handleSubmit,
     formState: { errors },
     reset,
-    watch
   } = useForm();
 
   const { data: issue, isLoading } = useQuery({
@@ -47,21 +47,20 @@ const UpdateIssue = () => {
     }
   }, [issue, reset]);
 
-
   const { mutateAsync, isPending } = useMutation({
     mutationFn: async (updatedData) =>
       await axiosSecure.patch(`/issues/${id}`, updatedData),
     onSuccess: () => {
       Swal.fire({
-        title: "Success!",
-        text: "Issue updated successfully.",
+        title: "Update Successful",
+        text: "The report information has been synchronized.",
         icon: "success",
-        confirmButtonText: "Great",
+        confirmButtonColor: "#08cb00",
       }).then(() => {
         navigate(`/issue-details/${id}`);
       });
     },
-    onError: (err) => {
+    onError: () => {
       toast.error("Failed to update issue");
     },
   });
@@ -71,7 +70,7 @@ const UpdateIssue = () => {
       let imageUrl = issue.image;
 
       if (data.image && data.image[0]) {
-        const toastId = toast.loading("Uploading new image...");
+        const toastId = toast.loading("Uploading new evidence...");
         imageUrl = await imageUpload(data.image[0]);
         toast.dismiss(toastId);
       }
@@ -85,9 +84,7 @@ const UpdateIssue = () => {
       };
 
       await mutateAsync(updatedIssue);
-
     } catch (error) {
-      console.error(error);
       toast.error("Update failed");
     }
   };
@@ -95,148 +92,149 @@ const UpdateIssue = () => {
   if (isLoading) return <LoadingPage />;
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.6 }}
-      className="min-h-screen flex justify-center items-center py-10"
-    >
-      <title>Update Issue</title>
+    <div className="min-h-screen bg-base-100 flex flex-col items-center py-12 px-4 transition-all duration-500 relative overflow-hidden">
+      {/* Background Decorative Glow */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/10 dark:bg-primary/5 rounded-full blur-[150px] -z-10" />
+
       <motion.div
-        className="p-8 w-full max-w-3xl bg-base-100 shadow-xl rounded-2xl border border-base-200"
-        initial={{ y: 30, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="w-full max-w-4xl"
       >
-        <div className="flex justify-between items-start mb-6">
-          <button onClick={() => navigate(-1)} className="btn btn-ghost btn-sm">
-            <FaArrowLeft /> Back
+        <title>Update Report | Civic Alert</title>
+
+        {/* Header Section */}
+        <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-6">
+          <button 
+            onClick={() => navigate(-1)} 
+            className="btn btn-ghost rounded-full gap-2 border border-base-300 dark:border-white/5 hover:bg-primary/10 transition-all text-xs font-black uppercase tracking-widest"
+          >
+            <FaArrowLeft /> Back to Details
           </button>
-          <div className="text-center flex-1 pr-16">
-            <h2 className="text-3xl font-bold">
-              Update <span className="logo-font text-primary">Details</span>
+          
+          <div className="text-center md:text-right">
+            <h2 className="text-3xl md:text-4xl font-black text-base-content tracking-tight">
+              Update <span className="text-primary drop-shadow-[0_0_15px_rgba(8,203,0,0.2)]">Details</span>
             </h2>
-            <p className="opacity-70 mt-1">Edit your report information</p>
+            <p className="text-base-content/50 uppercase tracking-[0.2em] text-[10px] font-bold">Refining report ID: {id?.slice(-6)}</p>
           </div>
         </div>
 
-        <form onSubmit={handleSubmit(handleUpdateIssue)}>
-          <fieldset className="fieldset space-y-6">
-
-            {/* Title */}
-            <div>
-              <label className="label font-bold">Issue Title</label>
-              <div className="relative">
-                <input
-                  {...register("title", {
-                    required: "Title is required",
-                    minLength: { value: 10, message: "Min 10 characters" },
-                  })}
-                  className="input input-bordered w-full"
-                />
-              </div>
-              <p className="text-red-500 text-sm">{errors.title?.message}</p>
+        {/* --- MODIFIED CONTAINER: No Shadow, Clear Border --- */}
+        <div className="p-8 md:p-12 rounded-[3rem] 
+            bg-base-200/50 dark:bg-base-200/40 
+            backdrop-blur-xl 
+            border-2 border-base-300 dark:border-white/10"
+            /* removed shadow-2xl */
+        >
+          <form onSubmit={handleSubmit(handleUpdateIssue)} className="space-y-8">
+            
+            {/* Title Section */}
+            <div className="space-y-2">
+              <label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-base-content/40 px-1">
+                <Type size={14} className="text-primary" /> Issue Title
+              </label>
+              <input
+                {...register("title", { required: "Title is required", minLength: { value: 10, message: "Provide at least 10 characters" } })}
+                className="input input-bordered w-full rounded-2xl bg-base-100 border-base-300 dark:border-white/5 focus:border-primary transition-all text-sm font-medium"
+              />
+              {errors.title && <p className="text-error text-[10px] font-bold px-1">{errors.title.message}</p>}
             </div>
 
             {/* Description */}
-            <div>
-              <label className="label font-bold">Description</label>
+            <div className="space-y-2">
+              <label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-base-content/40 px-1">
+                <FileText size={14} className="text-primary" /> Full Description
+              </label>
               <textarea
-                {...register("description", {
-                  required: "Description is required",
-                  minLength: { value: 20, message: "Min 20 characters" },
-                })}
-                className="textarea textarea-bordered w-full"
+                {...register("description", { required: "Description is required" })}
                 rows={4}
+                className="textarea textarea-bordered w-full rounded-2xl bg-base-100 border-base-300 dark:border-white/5 focus:border-primary transition-all text-sm leading-relaxed"
               />
-              <p className="text-red-500 text-sm">{errors.description?.message}</p>
+              {errors.description && <p className="text-error text-[10px] font-bold px-1">{errors.description.message}</p>}
             </div>
 
-            {/* Category & Priority */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-              {/* Category */}
-              <div>
-                <label className="label font-bold">Category</label>
-                <div className="relative">
-                  <select
-                    {...register("category", { required: "Category is required" })}
-                    className="select select-bordered w-full"
-                  >
-                    <option>Road Damage</option>
-                    <option>Water Leakage</option>
-                    <option>Street Lighting</option>
-                    <option>Waste Management</option>
-                    <option>Public Safety</option>
-                    <option>Other</option>
-                  </select>
-                </div>
+            {/* Category & Locked Priority */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="space-y-2">
+                <label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-base-content/40 px-1">
+                   <Tag size={14} className="text-primary" /> Category
+                </label>
+                <select
+                  {...register("category", { required: "Category is required" })}
+                  className="select select-bordered w-full rounded-2xl bg-base-100 border-base-300 dark:border-white/5"
+                >
+                  <option>Road Damage</option>
+                  <option>Water Leakage</option>
+                  <option>Street Lighting</option>
+                  <option>Waste Management</option>
+                  <option>Public Safety</option>
+                  <option>Other</option>
+                </select>
               </div>
 
-              {/* Priority */}
-              <div>
-                <label className="label font-bold">Priority Level</label>
-                <div className="relative">
-                  <input
-                    {...register("priority")}
-                    readOnly
-                    className="input input-bordered w-full bg-base-200 cursor-not-allowed text-gray-500"
-                    title="Priority cannot be changed while editing. Use Boost feature instead."
-                  />
-                </div>
-                <p className="text-xs text-gray-400 mt-1">
-                  *Priority cannot be changed here. Use the Boost option in details.
-                </p>
+              <div className="space-y-2">
+                <label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-base-content/40 px-1">
+                   <ShieldAlert size={14} className="text-primary" /> Priority Level
+                </label>
+                <input
+                  {...register("priority")}
+                  readOnly
+                  className="input input-bordered w-full rounded-2xl bg-base-content/5 border-base-300 dark:border-white/5 opacity-60 cursor-not-allowed font-bold text-xs uppercase tracking-widest"
+                />
+                <p className="text-[9px] font-bold text-base-content/30 px-1 italic">* Priority can only be updated via the 'Boost' feature.</p>
               </div>
             </div>
 
             {/* Location */}
-            <div>
-              <label className="label font-bold">Location</label>
-              <div className="relative">
-                <input
-                  {...register("location", { required: "Location is required" })}
-                  className="input input-bordered w-full"
-                />
-              </div>
-              <p className="text-red-500 text-sm">{errors.location?.message}</p>
+            <div className="space-y-2">
+              <label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-base-content/40 px-1">
+                <MapPin size={14} className="text-primary" /> Incident Location
+              </label>
+              <input
+                {...register("location", { required: "Location is required" })}
+                className="input input-bordered w-full rounded-2xl bg-base-100 border-base-300 dark:border-white/5"
+              />
             </div>
 
-            {/* Image Update Section */}
-            <div>
-              <label className="label font-bold">Issue Image</label>
-
-              {/* Existing Image Preview */}
-              {previewImage && (
-                <div className="mb-3">
-                  <p className="text-xs opacity-70 mb-1">Current Image:</p>
-                  <img src={previewImage} alt="Current" className="w-32 h-20 object-cover rounded-lg border" />
+            {/* Image Update with Preview */}
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-end">
+              <div className="md:col-span-4">
+                <label className="text-[10px] font-black uppercase tracking-widest text-base-content/40 px-1 mb-2 block">Current Evidence</label>
+                <div className="relative group overflow-hidden rounded-2xl border-2 border-base-300 dark:border-white/10">
+                   <img src={previewImage} alt="Current" className="w-full h-32 object-cover group-hover:scale-110 transition-transform duration-700" />
+                   <div className="absolute inset-0 bg-primary/20 mix-blend-overlay" />
                 </div>
-              )}
+              </div>
 
-              <div className="relative">
-                <FaImage className="absolute left-3 top-1/2 -translate-y-1/2 text-primary" />
+              <div className="md:col-span-8 space-y-2">
+                <label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-base-content/40 px-1">
+                  <FaImage size={14} className="text-primary" /> Replace Image
+                </label>
                 <input
                   type="file"
                   {...register("image")}
-                  className="file-input file-input-bordered w-full pl-10"
+                  className="file-input file-input-bordered w-full rounded-2xl bg-base-100 border-base-300 dark:border-white/5"
                 />
+                <p className="text-[9px] font-bold text-primary opacity-60 px-1">Leave empty to retain the current image.</p>
               </div>
-              <p className="text-xs text-info mt-1">Leave empty to keep the current photo.</p>
             </div>
 
+            {/* Action Button */}
             <motion.button
               disabled={isPending}
-              whileHover={!isPending ? { scale: 1.03 } : {}}
-              whileTap={!isPending ? { scale: 0.95 } : {}}
-              className={`btn btn-primary w-full text-base-100 text-lg mt-4 ${isPending ? "opacity-70 cursor-not-allowed" : ""
-                }`}
+              whileHover={{ scale: 1.01 }}
+              whileTap={{ scale: 0.98 }}
+              className={`btn btn-primary w-full h-16 rounded-2xl text-lg font-black uppercase tracking-[0.2em] shadow-[0_10px_25px_rgba(8,203,0,0.3)] ${
+                isPending ? "loading" : ""
+              }`}
             >
-              {isPending ? "Updating..." : "Save Changes"}
+              {isPending ? "Syncing Data..." : "Apply Changes"}
             </motion.button>
-          </fieldset>
-        </form>
+          </form>
+        </div>
       </motion.div>
-    </motion.div>
+    </div>
   );
 };
 

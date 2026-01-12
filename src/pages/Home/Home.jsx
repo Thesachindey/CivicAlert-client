@@ -12,7 +12,7 @@ import Pricing from './Pricing/Pricing';
 const Home = () => {
     return (
         <div>
-            <title>Home</title>
+            <title>Civic Alert - Home</title>
             <header>
                 <Banner />
             </header>

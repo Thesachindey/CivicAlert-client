@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router';
 import { FaUserPlus, FaCrown, FaUserCircle, FaBars, FaTimes, FaShieldAlt } from 'react-icons/fa';
 // --- RESTORED LINE ICONS ---
-import { HiOutlineHome, HiOutlineClipboardDocumentList, HiOutlineUserGroup, HiOutlineInformationCircle } from "react-icons/hi2";
+import { HiOutlineHome, HiOutlineClipboardDocumentList, HiOutlineUserGroup, HiOutlineInformationCircle, HiOutlineLockClosed, HiOutlineLockOpen } from "react-icons/hi2";
 import toast from 'react-hot-toast';
 import Swal from 'sweetalert2'; 
 import Logo from './Logo';
@@ -67,8 +67,9 @@ const NavBar = () => {
   const navLinks = [
     { name: "Home", path: "/", icon: HiOutlineHome },
     { name: "All Issues", path: "/all-issues", icon: HiOutlineClipboardDocumentList },
-    ...(dbUser?.role === 'citizen' ? [{ name: "My Issues", path: "/dashboard/my-issues", icon: HiOutlineUserGroup },{ name: "Dashboard", path: "/dashboard", icon: MdDashboard }] : []),
-    { name: "About Us", path: "/about-us", icon: HiOutlineInformationCircle }
+    ...(dbUser ? [{ name: "My Issues", path: "/dashboard/my-issues", icon: HiOutlineUserGroup },{ name: "Dashboard", path: "/dashboard", icon: MdDashboard }] : []),
+    { name: "About Us", path: "/about-us", icon: HiOutlineInformationCircle },
+      // { name: "Terms & Conditions", path: "/terms-conditions", icon: HiOutlineLockOpen },
   ];
 
   const glowColor = "#f7e479"; 
@@ -236,9 +237,9 @@ const NavBar = () => {
                       <span className="badge badge-sm bg-base-300">New</span>
                     </MyLink>
                   </li>
-                  <li>
+                  {/* <li>
                     <MyLink to={'/dashboard'}> <MdDashboard className="inline-block w-4 h-4 mr-2" /> Dashboard </MyLink>
-                  </li>
+                  </li> */}
                   <li>
                     <ThemeToggle/>
                   </li>

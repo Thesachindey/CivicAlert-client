@@ -12,74 +12,32 @@ import {
 } from "react-icons/fa";
 
 const featureData = [
-  {
-    icon: <FaExclamationTriangle size={24} />,
-    title: "Report City Issues",
-    desc: "Easily report public infrastructure problems like broken roads, streetlights, and water leaks.",
-  },
-  {
-    icon: <FaMapMarkedAlt size={24} />,
-    title: "Location Tracking",
-    desc: "Attach real locations with every issue so authorities can respond faster and accurately.",
-  },
-  {
-    icon: <FaUsers size={24} />,
-    title: "Collaborative Action",
-    desc: "Admins and staff work together with citizens to verify, assign, and resolve reported issues.",
-  },
-  {
-    icon: <FaChartLine size={24} />,
-    title: "Track Progress",
-    desc: "Monitor issue status updates, timelines, and resolution history in real time.",
-  },
-  {
-    icon: <FaBell size={24} />,
-    title: "Real-Time Alerts",
-    desc: "Get instant alerts when your reported issue is reviewed, updated, or resolved.",
-  },
-  {
-    icon: <FaCamera size={24} />,
-    title: "Photo Evidence",
-    desc: "Upload images with reports to clearly show the problem and improve verification.",
-  },
-  {
-    icon: <FaUserShield size={24} />,
-    title: "Focused Dashboards",
-    desc: "Separate dashboards for citizens, staff, and admins for efficient management.",
-  },
-  {
-    icon: <FaCheckCircle size={24} />,
-    title: "Secure Verification",
-    desc: "Authentication and moderation ensure reports are genuine and trustworthy.",
-  },
+  { icon: <FaExclamationTriangle size={24} />, title: "Report City Issues", desc: "Easily report public infrastructure problems like broken roads, streetlights, and water leaks." },
+  { icon: <FaMapMarkedAlt size={24} />, title: "Location Tracking", desc: "Attach real locations with every issue so authorities can respond faster and accurately." },
+  { icon: <FaUsers size={24} />, title: "Collaborative Action", desc: "Admins and staff work together with citizens to verify, assign, and resolve reported issues." },
+  { icon: <FaChartLine size={24} />, title: "Track Progress", desc: "Monitor issue status updates, timelines, and resolution history in real time." },
+  { icon: <FaBell size={24} />, title: "Real-Time Alerts", desc: "Get instant alerts when your reported issue is reviewed, updated, or resolved." },
+  { icon: <FaCamera size={24} />, title: "Photo Evidence", desc: "Upload images with reports to clearly show the problem and improve verification." },
+  { icon: <FaUserShield size={24} />, title: "Focused Dashboards", desc: "Separate dashboards for citizens, staff, and admins for efficient management." },
+  { icon: <FaCheckCircle size={24} />, title: "Secure Verification", desc: "Authentication and moderation ensure reports are genuine and trustworthy." },
 ];
 
 const Features = () => {
   const containerVariants = {
     hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.1, delayChildren: 0.2 },
-    },
+    visible: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.2 } },
   };
 
   const itemVariants = {
     hidden: { y: 30, opacity: 0, filter: "blur(10px)" },
-    visible: {
-      y: 0,
-      opacity: 1,
-      filter: "blur(0px)",
-      transition: { type: "spring", stiffness: 40, damping: 20 },
-    },
+    visible: { y: 0, opacity: 1, filter: "blur(0px)", transition: { type: "spring", stiffness: 40, damping: 20 } },
   };
 
   return (
     <section className="py-24 relative overflow-hidden bg-base-100 transition-colors duration-500">
-      {/* Background Decorative Glows */}
       <div className="absolute top-1/4 left-0 w-96 h-96 bg-[#08cb00]/5 rounded-full blur-[150px] -z-10" />
       <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-[#08cb00]/5 rounded-full blur-[150px] -z-10" />
 
-      {/* Section Header */}
       <motion.div
         className="text-center space-y-4 mb-20 px-6"
         initial={{ opacity: 0, y: -20, filter: "blur(10px)" }}
@@ -109,38 +67,27 @@ const Features = () => {
             variants={itemVariants}
             whileHover={{ 
                 y: -10, 
-                /* FIXED: Removed oklch, using standard rgba */
-                backgroundColor: "rgba(8, 203, 0, 0.05)",
+                backgroundColor: "rgba(8, 203, 0, 0.08)",
                 borderColor: "rgba(8, 203, 0, 0.4)"
             }}
             className="
                 relative group p-8 rounded-[2.5rem] 
-                bg-base-200/40 backdrop-blur-[40px] 
+                /* NO DARK: UTILITIES USED BELOW */
+                bg-base-200/50 backdrop-blur-md
                 border border-base-content/10
-                shadow-[0_10px_30px_rgba(0,0,0,0.05)]
+                shadow-sm
                 transition-all duration-500
             "
           >
-            <motion.div
-              className="
-                w-14 h-14 mb-6 flex items-center justify-center rounded-2xl
-                bg-[#08cb00]/10 text-[#08cb00] border border-[#08cb00]/20
-                shadow-[0_0_20px_rgba(8,203,0,0.1)]
-                group-hover:shadow-[0_0_30px_rgba(8,203,0,0.3)]
-                transition-all duration-500
-              "
-              whileHover={{ rotate: 12, scale: 1.1 }}
-            >
+            <motion.div className="w-14 h-14 mb-6 flex items-center justify-center rounded-2xl bg-[#08cb00]/10 text-[#08cb00] border border-[#08cb00]/20 shadow-[0_0_20px_rgba(8,203,0,0.1)] group-hover:shadow-[0_0_30px_rgba(8,203,0,0.3)] transition-all duration-500" whileHover={{ rotate: 12, scale: 1.1 }}>
               {item.icon}
             </motion.div>
-
             <h3 className="text-xl font-bold text-base-content mb-3 group-hover:text-[#08cb00] transition-colors">
               {item.title}
             </h3>
             <p className="text-base-content/60 text-sm leading-relaxed font-light group-hover:text-base-content transition-colors">
               {item.desc}
             </p>
-
             <div className="absolute inset-0 rounded-[2.5rem] bg-gradient-to-br from-[#08cb00]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
           </motion.div>
         ))}

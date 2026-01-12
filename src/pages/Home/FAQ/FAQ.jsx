@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Plus, Minus, HelpCircle } from "lucide-react";
+import { Plus, Minus } from "lucide-react";
 
 const faqData = [
   {
@@ -35,19 +35,21 @@ const FAQItem = ({ item, isOpen, toggle }) => {
       initial={false}
       className={`
         mb-4 overflow-hidden transition-all duration-500
-        rounded-[2rem] border ${isOpen ? 'border-[#08cb00]/40 bg-white/10' : 'border-white/10 bg-white/[0.03]'}
-        backdrop-blur-[40px] shadow-2xl
+        rounded-[2rem] border backdrop-blur-xl
+        ${isOpen 
+          ? 'border-[#08cb00]/40 bg-base-200/80 dark:bg-base-200/60 shadow-lg' 
+          : 'border-base-content/10 bg-base-200/30 dark:bg-white/[0.03] shadow-sm'}
       `}
     >
       <button
         onClick={toggle}
         className="flex items-center justify-between w-full p-6 text-left cursor-pointer"
       >
-        <span className={`text-lg font-bold transition-colors ${isOpen ? 'text-[#08cb00]' : 'text-white/80'}`}>
+        <span className={`text-lg font-bold transition-colors ${isOpen ? 'text-[#06a100] dark:text-[#08cb00]' : 'text-base-content/80'}`}>
           {item.question}
         </span>
-        <div className={`p-2 rounded-full transition-all ${isOpen ? 'bg-[#08cb00] text-black rotate-180' : 'bg-white/5 text-white'}`}>
-          {isOpen ? <Minus size={18} /> : <Plus size={18} />}
+        <div className={`p-2 rounded-full transition-all ${isOpen ? 'bg-[#08cb00] text-black rotate-180 shadow-[0_0_15px_rgba(8,203,0,0.4)]' : 'bg-base-content/10 text-base-content'}`}>
+          {isOpen ? <Minus size={18} strokeWidth={3} /> : <Plus size={18} strokeWidth={3} />}
         </div>
       </button>
 
@@ -59,7 +61,7 @@ const FAQItem = ({ item, isOpen, toggle }) => {
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.4, ease: "circOut" }}
           >
-            <div className="px-6 pb-6 text-white/50 font-light leading-relaxed border-t border-white/5 pt-4">
+            <div className="px-6 pb-6 text-base-content/60 font-medium leading-relaxed border-t border-base-content/5 pt-4">
               {item.answer}
             </div>
           </motion.div>
@@ -73,9 +75,9 @@ const FAQ = () => {
   const [openIndex, setOpenIndex] = useState(0);
 
   return (
-    <section className="py-24 relative overflow-hidden px-6">
+    <section className="py-24 relative overflow-hidden px-6 bg-base-100 transition-colors duration-500">
       {/* Background Decorative Glow */}
-      <div className="absolute top-1/2 left-0 w-96 h-96 bg-[#08cb00]/5 rounded-full blur-[150px] -z-10" />
+      <div className="absolute top-1/2 left-0 w-96 h-96 bg-[#08cb00]/10 rounded-full blur-[150px] -z-10 opacity-50 dark:opacity-100" />
 
       <div className="max-w-4xl mx-auto">
         {/* Header */}
@@ -86,13 +88,13 @@ const FAQ = () => {
           transition={{ duration: 1.2, ease: "circOut" }}
           viewport={{ once: true }}
         >
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#08cb00]/30 bg-[#08cb00]/5 text-[#08cb00] text-[10px] font-black uppercase tracking-[0.3em] mb-4">
-             Help Center
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#08cb00]/30 bg-[#08cb00]/10 text-[#06a100] dark:text-[#08cb00] text-[10px] font-black uppercase tracking-[0.3em] mb-4">
+              Help Center
           </div>
-          <h2 className="text-4xl md:text-5xl font-black text-white leading-tight">
-            Frequently Asked <span className="text-[#08cb00]">Questions</span>
+          <h2 className="text-4xl md:text-5xl font-black text-base-content leading-tight">
+            Frequently Asked <span className="text-[#08cb00] drop-shadow-[0_0_15px_rgba(8,203,0,0.3)]">Questions</span>
           </h2>
-          <p className="text-white/40 max-w-xl mx-auto text-base md:text-lg font-light">
+          <p className="text-base-content/50 max-w-xl mx-auto text-base md:text-lg font-medium">
             Everything you need to know about reporting, tracking, and improving our community infrastructure.
           </p>
         </motion.div>

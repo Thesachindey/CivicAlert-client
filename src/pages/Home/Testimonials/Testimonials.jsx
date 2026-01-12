@@ -37,7 +37,7 @@ const testimonialData = [
 
 const Testimonials = () => {
   return (
-    <section className="py-24 relative overflow-hidden px-6">
+    <section className="py-24 relative overflow-hidden px-6 bg-base-100 transition-colors duration-500">
       {/* Background Decorative Glow */}
       <div className="absolute top-1/2 right-0 w-[500px] h-[500px] bg-[#08cb00]/5 rounded-full blur-[150px] -z-10" />
 
@@ -50,10 +50,10 @@ const Testimonials = () => {
           transition={{ duration: 1.2, ease: "circOut" }}
           viewport={{ once: true }}
         >
-          <h2 className="text-4xl md:text-5xl font-black text-white leading-tight">
+          <h2 className="text-4xl md:text-5xl font-black text-base-content leading-tight">
             Voices of the <span className="text-[#08cb00] drop-shadow-[0_0_15px_rgba(8,203,0,0.4)]">Community</span>
           </h2>
-          <p className="text-white/40 max-w-2xl mx-auto text-base md:text-lg font-light leading-relaxed">
+          <p className="text-base-content/60 max-w-2xl mx-auto text-base md:text-lg font-light leading-relaxed">
             Discover how CivicAlert is transforming urban management through the eyes of those who use it every day.
           </p>
         </motion.div>
@@ -69,7 +69,7 @@ const Testimonials = () => {
           breakpoints={{
             768: { slidesPerView: 2 },
             1024: { slidesPerView: 3 },
-          }}
+          }}       
           className="pb-16 testimonial-swiper"
         >
           {testimonialData.map((user, index) => (
@@ -77,26 +77,29 @@ const Testimonials = () => {
               <motion.div 
                 whileHover={{ y: -10 }}
                 className="
+                
                   relative p-10 h-full rounded-[3rem] 
-                  bg-white/[0.03] backdrop-blur-[50px] 
-                  border border-white/10 border-t-white/20
-                  shadow-[0_20px_50px_rgba(0,0,0,0.3)]
+                  /* UPDATED: Darker off-white (base-200) with 70% opacity for better visibility */
+                  bg-base-200/40 dark:bg-base-200/40 
+                  backdrop-blur-xl 
+                  border   dark:border-base-content/10
+                  shadow-none
                   flex flex-col gap-6 transition-all duration-500
                 "
               >
                 {/* Quote Icon */}
-                <div className="text-[#08cb00] opacity-40">
+                <div className="text-[#748074] opacity-40">
                   <Quote size={40} fill="currentColor" />
                 </div>
 
-                <p className="text-white/60 text-lg italic font-light leading-relaxed flex-grow">
+                <p className="text-base-content/70 text-lg italic font-light leading-relaxed flex-grow">
                   "{user.comment}"
                 </p>
 
                 {/* User Info */}
-                <div className="flex items-center gap-4 pt-6 border-t border-white/5">
+                <div className="flex items-center gap-4 pt-6 border-t border-base-content/5">
                   <div className="relative">
-                    <div className="absolute inset-0 bg-[#08cb00]/40 rounded-full blur-md" />
+                    <div className="absolute inset-0 bg-[#08cb00]/40 rounded-full blur-md opacity-30 dark:opacity-100" />
                     <img 
                       src={user.image} 
                       alt={user.name} 
@@ -104,7 +107,7 @@ const Testimonials = () => {
                     />
                   </div>
                   <div>
-                    <h4 className="text-white font-bold text-lg">{user.name}</h4>
+                    <h4 className="text-base-content font-bold text-lg">{user.name}</h4>
                     <p className="text-[#08cb00] text-[10px] font-black uppercase tracking-widest">
                       {user.role}
                     </p>
@@ -123,17 +126,17 @@ const Testimonials = () => {
         </Swiper>
       </div>
 
-      {/* Custom Styles for Swiper Pagination */}
       <style>{`
         .testimonial-swiper .swiper-pagination-bullet {
-          background: rgba(255, 255, 255, 0.1) !important;
+          /* Higher contrast for light mode */
+          background: oklch(var(--bc) / 0.3) !important;
           width: 8px;
           height: 8px;
           opacity: 1;
         }
         .testimonial-swiper .swiper-pagination-bullet-active {
           background: #08cb00 !important;
-          box-shadow: 0 0 10px rgba(8, 203, 0, 0.6);
+          box-shadow: 0 0 10px rgba(8, 203, 0, 0.4);
           width: 24px;
           border-radius: 4px;
         }

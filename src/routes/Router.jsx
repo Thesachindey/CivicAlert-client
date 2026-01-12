@@ -28,6 +28,8 @@ import AssignedIssues from "../pages/Dashboard/Staff/AssignedIssues";
 import CitizenHome from "../pages/Dashboard/Citizen/CitizenHome";
 import ManageUsers from "../pages/Dashboard/Admin/ManageUsers";
 import DashboardHome from "../pages/Dashboard/DashboardHome";
+import PrivacyPolicy from "../pages/terms/PrivacyPolicy";
+import TermsConditions from "../pages/terms/TermsConditions";
 
 export const router = createBrowserRouter([
   {
@@ -37,6 +39,14 @@ export const router = createBrowserRouter([
       {
         index: true,
         Component: Home
+      },
+      {
+        path: '/privacy-policy',
+        element: <PrivacyPolicy />
+      },
+      {
+        path: '/terms-conditions',
+        element: <TermsConditions />
       },
       {
         path: '/about-us',

@@ -20,7 +20,6 @@ const LatestResolvedIssues = () => {
         }
     });
 
-    // --- ANIMATION VARIANTS (Matching Banner/Features) ---
     const containerVariants = {
         hidden: { opacity: 0 },
         visible: {
@@ -43,7 +42,7 @@ const LatestResolvedIssues = () => {
     const displayIssues = issues.slice(0, 6);
 
     return (
-        <div className="py-24 relative overflow-hidden">
+        <div className="py-24 relative overflow-hidden bg-base-100 transition-colors duration-500">
             {/* Background Decorative Glows */}
             <div className="absolute top-1/3 right-0 w-[500px] h-[500px] bg-[#08cb00]/5 rounded-full blur-[150px] -z-10" />
             <div className="absolute bottom-0 left-[-10%] w-[400px] h-[400px] bg-[#08cb00]/5 rounded-full blur-[120px] -z-10" />
@@ -58,13 +57,13 @@ const LatestResolvedIssues = () => {
                     transition={{ duration: 1.2, ease: "circOut" }}
                     viewport={{ once: true }}
                 >
-                    <div className="flex items-center justify-center gap-3 mb-2">
-                        <FaCheckCircle className="text-[#08cb00] text-3xl drop-shadow-[0_0_10px_rgba(8,203,0,0.5)]" />
-                        <h2 className="text-4xl md:text-5xl font-black text-white leading-tight">
+                    <div className="flex flex-col items-center justify-center gap-3 mb-2">
+                        <FaCheckCircle className="text-[#08cb00] text-4xl drop-shadow-[0_0_15px_rgba(8,203,0,0.4)]" />
+                        <h2 className="text-4xl md:text-5xl font-black text-base-content leading-tight">
                             Latest <span className="text-[#08cb00]">Resolved</span> Issues
                         </h2>
                     </div>
-                    <p className="text-white/40 max-w-2xl mx-auto text-base md:text-lg font-light leading-relaxed">
+                    <p className="text-base-content/60 max-w-2xl mx-auto text-base md:text-lg font-light leading-relaxed">
                         See how our community and staff are working together to fix public infrastructure problems and build a better city.
                     </p>
                 </motion.div>
@@ -85,21 +84,21 @@ const LatestResolvedIssues = () => {
                         ))}
                     </motion.div>
                 ) : (
-                    /* --- EMPTY STATE (GLASS STYLE) --- */
+                    /* --- EMPTY STATE (THEME ADAPTIVE) --- */
                     <motion.div 
                         initial={{ opacity: 0, scale: 0.95 }}
                         whileInView={{ opacity: 1, scale: 1 }}
                         className="
-                            text-center py-20 
-                            bg-white/[0.02] backdrop-blur-2xl 
-                            border border-white/10 rounded-[3rem]
-                            shadow-2xl
+                            text-center py-24 
+                            bg-base-200/40 backdrop-blur-2xl 
+                            border border-base-content/10 rounded-[3rem]
+                            shadow-xl
                         "
                     >
-                        <FaCheckCircle className="mx-auto text-5xl text-white/10 mb-6 animate-pulse" />
-                        <h3 className="text-xl font-bold text-white/60 mb-2">No resolved issues yet</h3>
-                        <p className="text-white/30 text-sm font-light">
-                            The system is active. Once an issue is fixed, it will appear in this emerald sector.
+                        <FaCheckCircle className="mx-auto text-6xl text-base-content/10 mb-6 animate-pulse" />
+                        <h3 className="text-2xl font-bold text-base-content/60 mb-2 uppercase tracking-tighter">No resolved issues yet</h3>
+                        <p className="text-base-content/40 text-sm max-w-md mx-auto font-light leading-relaxed px-6">
+                            The system is active. Once an issue is fixed, it will appear in this emerald sector as a testament to civic progress.
                         </p>
                     </motion.div>
                 )}

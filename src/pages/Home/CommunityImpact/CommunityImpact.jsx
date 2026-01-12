@@ -26,7 +26,6 @@ const impactData = [
 ];
 
 const CommunityImpact = () => {
-  // 1. Unified Spring Variants (Matching Banner & Features)
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -46,7 +45,7 @@ const CommunityImpact = () => {
   };
 
   return (
-    <div className="py-24 relative overflow-hidden">
+    <div className="py-24 relative overflow-hidden bg-base-100 transition-colors duration-500">
       {/* Background Decorative Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#08cb00]/[0.03] rounded-full blur-[180px] -z-10" />
 
@@ -59,10 +58,10 @@ const CommunityImpact = () => {
           transition={{ duration: 1.2, ease: "circOut" }}
           viewport={{ once: true }}
         >
-          <h2 className="text-4xl md:text-5xl font-black text-white leading-tight">
+          <h2 className="text-4xl md:text-5xl font-black text-base-content leading-tight">
             Making Cities <span className="text-[#08cb00] drop-shadow-[0_0_15px_rgba(8,203,0,0.4)]">Better Together</span>
           </h2>
-          <p className="text-white/40 max-w-2xl mx-auto text-base md:text-lg font-light leading-relaxed">
+          <p className="text-base-content/60 max-w-2xl mx-auto text-base md:text-lg font-light leading-relaxed">
             Real impact created by citizens and authorities working side by side to build a smarter, greener infrastructure.
           </p>
         </motion.div>
@@ -81,14 +80,15 @@ const CommunityImpact = () => {
               variants={itemVariants}
               whileHover={{ 
                 y: -10, 
-                backgroundColor: "rgba(255, 255, 255, 0.05)",
+                backgroundColor: "rgba(8, 203, 0, 0.05)",
                 borderColor: "rgba(8, 203, 0, 0.4)"
               }}
               className="
                 relative group p-10 rounded-[2.5rem] 
-                bg-white/[0.03] backdrop-blur-[40px] 
-                border border-white/10 border-t-white/20
-                shadow-[0_20px_40px_rgba(0,0,0,0.2)]
+                /* Glass Effect optimized for both modes */
+                bg-base-200/50 dark:bg-base-200/40 backdrop-blur-[40px] 
+                border border-base-content/10 dark:border-white/10
+                shadow-[0_20px_40px_rgba(0,0,0,0.06)] dark:shadow-[0_20px_40px_rgba(0,0,0,0.3)]
                 text-center transition-all duration-500
               "
             >
@@ -103,12 +103,12 @@ const CommunityImpact = () => {
               </div>
 
               {/* Counter/Value */}
-              <h3 className="text-4xl md:text-5xl font-black text-white mb-2 tracking-tighter transition-colors group-hover:text-[#08cb00]">
+              <h3 className="text-4xl md:text-5xl font-black text-base-content mb-2 tracking-tighter transition-colors group-hover:text-[#08cb00]">
                 {item.value}
               </h3>
 
               {/* Label */}
-              <p className="text-xs uppercase tracking-[0.3em] font-bold text-white/30 group-hover:text-white/60 transition-colors">
+              <p className="text-xs uppercase tracking-[0.3em] font-bold text-base-content/30 group-hover:text-base-content/60 transition-colors">
                 {item.label}
               </p>
 
